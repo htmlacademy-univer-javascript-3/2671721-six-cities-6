@@ -61,27 +61,17 @@ export const Main: FC<IMainProps> = ({ offersCount }) => (
             </form>
 
             <div className="cities__places-list places__list tabs__content">
-              {PLACE_CARD_ARRAY.map((
-                {
-                  id,
-                  title,
-                  type,
-                  price,
-                  isPremium,
-                  isFavorite,
-                  previewImage,
-                  rating,
-                }) => (
+              {PLACE_CARD_ARRAY.map((place) => (
                 <PlaceCard
                   cardType={PlaceCardType.DEFAULT}
-                  title={title}
-                  type={type}
-                  price={price}
-                  previewImage={previewImage}
-                  isPremium={isPremium}
-                  isFavorite={isFavorite}
-                  rating={rating}
-                  key={id}
+                  title={place.title}
+                  type={place.type}
+                  price={place.price}
+                  previewImage={place.previewImage}
+                  isPremium={place.isPremium}
+                  isFavorite={place.isFavorite}
+                  rating={place.rating}
+                  key={place.id}
                 />
               ))}
             </div>

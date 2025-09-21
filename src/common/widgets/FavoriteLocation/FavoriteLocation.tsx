@@ -20,27 +20,17 @@ export const FavoriteLocation: FC<IFavoriteLocationProps> = (props) => {
         </div>
       </div>
       <div className="favorites__places">
-        {places.map((
-          {
-            id,
-            title,
-            type,
-            price,
-            isPremium,
-            isFavorite,
-            previewImage,
-            rating,
-          }) => (
+        {places.map((place) => (
           <PlaceCard
             cardType={PlaceCardType.WIDE}
-            title={title}
-            type={type}
-            price={price}
-            previewImage={previewImage}
-            isPremium={isPremium}
-            isFavorite={isFavorite}
-            rating={rating}
-            key={id}
+            title={place.title}
+            type={place.type}
+            price={place.price}
+            previewImage={place.previewImage}
+            isPremium={place.isPremium}
+            isFavorite={place.isFavorite}
+            rating={place.rating}
+            key={place.id}
           />
         ))}
       </div>

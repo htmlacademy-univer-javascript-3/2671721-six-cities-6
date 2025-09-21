@@ -181,27 +181,17 @@ export const Offer: FC<IOfferProps> = () => (
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            {PLACE_CARD_ARRAY.slice(0, 3).map((
-              {
-                id,
-                title,
-                type,
-                price,
-                isPremium,
-                isFavorite,
-                previewImage,
-                rating,
-              }) => (
+            {PLACE_CARD_ARRAY.slice(0, 3).map((place) => (
               <PlaceCard
                 cardType={PlaceCardType.DEFAULT}
-                title={title}
-                type={type}
-                price={price}
-                previewImage={previewImage}
-                isPremium={isPremium}
-                isFavorite={isFavorite}
-                rating={rating}
-                key={id}
+                title={place.title}
+                type={place.type}
+                price={place.price}
+                previewImage={place.previewImage}
+                isPremium={place.isPremium}
+                isFavorite={place.isFavorite}
+                rating={place.rating}
+                key={place.id}
               />
             ))}
           </div>

@@ -1,7 +1,7 @@
 import { IGroupedPlaceCard, IPlaceCard } from './types.ts';
 
-export const groupPlaceCardsByCity = (offers: IPlaceCard[]): IGroupedPlaceCard => (
-  offers.reduce((acc: IGroupedPlaceCard, place) => {
+export const groupPlaceCardsByCity = (places: IPlaceCard[]): IGroupedPlaceCard => (
+  places.reduce((acc: IGroupedPlaceCard, place) => {
     const city = place.city.name;
 
     if (!acc[city]) {
