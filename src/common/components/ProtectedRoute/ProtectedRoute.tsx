@@ -9,5 +9,5 @@ export const ProtectedRoute: FC = () => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  return <Outlet />
-}
+  return <Outlet />;
+};
