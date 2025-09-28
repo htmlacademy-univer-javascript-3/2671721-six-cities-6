@@ -9,7 +9,7 @@ interface IOfferProps {
 
 export const Offer: FC<IOfferProps> = () => (
   <div className="page">
-    <Header isLogin />
+    <Header isAuthenticated />
 
     <main className="page__main page__main--offer">
       <section className="offer">

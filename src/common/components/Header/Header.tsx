@@ -1,10 +1,10 @@
 import { FC } from 'react';
 
 interface IHeaderProps {
-  isLogin: boolean;
+  isAuthenticated: boolean;
 }
 
-export const Header: FC<IHeaderProps> = ({ isLogin }) => (
+export const Header: FC<IHeaderProps> = ({ isAuthenticated }) => (
   <header className="header">
     <div className="container">
       <div className="header__wrapper">
@@ -16,7 +16,7 @@ export const Header: FC<IHeaderProps> = ({ isLogin }) => (
             />
           </a>
         </div>
-        {isLogin && (
+        {isAuthenticated && (
           <nav className="header__nav">
             <ul className="header__nav-list">
               <li className="header__nav-item user">
@@ -32,7 +32,7 @@ export const Header: FC<IHeaderProps> = ({ isLogin }) => (
               </li>
               <li className="header__nav-item">
                 <a className="header__nav-link" href="#">
-                  <span className="header__signout">{isLogin ? 'Sign out' : 'Sign in'}</span>
+                  <span className="header__signout">{isAuthenticated ? 'Sign out' : 'Sign in'}</span>
                 </a>
               </li>
             </ul>

@@ -15,7 +15,7 @@ export const Favorites: FC<IFavoritesProps> = () => {
 
   return (
     <div className="page">
-      <Header isLogin />
+      <Header isAuthenticated />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
