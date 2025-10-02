@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import {Link} from 'react-router-dom';
 
 interface ILoginProps {
 }
@@ -9,9 +10,12 @@ export const Login: FC<ILoginProps> = () => (
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a className="header__logo-link" href="main.html">
-              <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-            </a>
+            <Link className="header__logo-link" to="/">
+              <img
+                className="header__logo" src="img/logo.svg" alt="6 cities logo"
+                width="81" height="41"
+              />
+            </Link>
           </div>
         </div>
       </div>

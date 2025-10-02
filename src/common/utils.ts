@@ -12,3 +12,12 @@ export const groupPlaceCardsByCity = (places: IPlaceCard[]): IGroupedPlaceCard =
     return acc;
   }, {})
 );
+
+export const calculateRatingPercent = (rating: number) => Math.round((rating / 5) * 100);
+
+export const getDate = (dt: string) => {
+  const date = new Date(dt);
+  const month = date.toLocaleString('en-US', { month: 'long' });
+  const year = date.getFullYear();
+  return `${month} ${year}`;
+};
