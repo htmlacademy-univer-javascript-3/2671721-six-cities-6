@@ -23,6 +23,7 @@ export const FavoriteLocation: FC<IFavoriteLocationProps> = (props) => {
         {places.map((place) => (
           <PlaceCard
             cardType={PlaceCardType.WIDE}
+            id={place.id}
             title={place.title}
             type={place.type}
             price={place.price}

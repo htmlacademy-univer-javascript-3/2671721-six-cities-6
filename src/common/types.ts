@@ -46,3 +46,32 @@ export interface IPlaceCard {
 export interface IGroupedPlaceCard {
   [city: string]: IPlaceCard[];
 }
+
+export interface IHost {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
+export interface IOffer extends Omit<IPlaceCard, 'previewImage'> {
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: IHost;
+  images: string[];
+  maxAdults: number;
+}
+
+export interface IUser {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
+export interface IReview {
+  id: string;
+  date: string;
+  user: IUser;
+  comment: string;
+  rating: number;
+}
