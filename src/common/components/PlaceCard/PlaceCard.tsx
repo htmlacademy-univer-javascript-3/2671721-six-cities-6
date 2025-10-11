@@ -13,7 +13,7 @@ interface IPlaceCardProps {
   isFavorite: IPlaceCard['isFavorite'];
   previewImage: IPlaceCard['previewImage'];
   rating: IPlaceCard['rating'];
-  handleClick: (title: string) => void;
+  handleClick?: (title: string) => void;
 }
 
 export const PlaceCard: FC<IPlaceCardProps> = (props) => {
@@ -32,7 +32,7 @@ export const PlaceCard: FC<IPlaceCardProps> = (props) => {
   const isWide = cardType === PlaceCardType.WIDE;
 
   return (
-    <article className={`${cardType}__card place-card`} onClick={() => handleClick(title)}>
+    <article className={`${cardType}__card place-card`} onClick={() => handleClick?.(title)}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
