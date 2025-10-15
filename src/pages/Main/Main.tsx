@@ -1,14 +1,16 @@
 import { FC } from 'react';
-import { CITIES, PLACE_CARD_ARRAY } from '../../common/const.ts';
-import { PlaceCard } from '../../common/components/PlaceCard/PlaceCard.tsx';
-import { PlaceCardType } from '../../common/types.ts';
+import { CITIES } from '../../common/const.ts';
+import { IPlaceCard } from '../../common/types.ts';
 import { Header } from '../../common/components/Header/Header.tsx';
+import {
+  PlaceCardList
+} from '../../common/widgets/PlaceCardList/PlaceCardList.tsx';
 
 interface IMainProps {
-  offersCount: number;
+  placeCardArray: IPlaceCard[];
 }
 
-export const Main: FC<IMainProps> = ({ offersCount }) => (
+export const Main: FC<IMainProps> = ({ placeCardArray }) => (
   <div className="page page--gray page--main">
     <Header isAuthenticated />
 
@@ -34,7 +36,7 @@ export const Main: FC<IMainProps> = ({ offersCount }) => (
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">
-              {offersCount} places to stay in Amsterdam
+              {placeCardArray.length} places to stay in Amsterdam
             </b>
 
             <form className="places__sorting" action="#" method="get">
@@ -60,21 +62,7 @@ export const Main: FC<IMainProps> = ({ offersCount }) => (
               </ul>
             </form>
 
-            <div className="cities__places-list places__list tabs__content">
-              {PLACE_CARD_ARRAY.map((place) => (
-                <PlaceCard
-                  cardType={PlaceCardType.DEFAULT}
-                  title={place.title}
-                  type={place.type}
-                  price={place.price}
-                  previewImage={place.previewImage}
-                  isPremium={place.isPremium}
-                  isFavorite={place.isFavorite}
-                  rating={place.rating}
-                  key={place.id}
-                />
-              ))}
-            </div>
+            <PlaceCardList placeCardList={placeCardArray} />
           </section>
 
           <div className="cities__right-section">
