@@ -4,9 +4,10 @@ import { IPlaceCard, PlaceCardType } from '../../types.ts';
 
 interface IPlaceCardListProps {
   placeCardList: IPlaceCard[];
+  handleClick: (title: string) => void;
 }
 
-export const PlaceCardList: FC<IPlaceCardListProps> = ({ placeCardList }) => (
+export const PlaceCardList: FC<IPlaceCardListProps> = ({ placeCardList, handleClick }) => (
   <div className="cities__places-list places__list tabs__content">
     {placeCardList.map((place) => (
       <PlaceCard
@@ -20,6 +21,7 @@ export const PlaceCardList: FC<IPlaceCardListProps> = ({ placeCardList }) => (
         isFavorite={place.isFavorite}
         rating={place.rating}
         key={place.id}
+        handleClick={handleClick}
       />
     ))}
   </div>

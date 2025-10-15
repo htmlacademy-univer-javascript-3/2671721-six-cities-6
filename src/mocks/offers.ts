@@ -10,16 +10,16 @@ export const PLACE_CARD_ARRAY: IPlaceCard[] = [
     title: 'Beautiful & luxurious apartment at great location',
     type: 'apartment',
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: 48.85661,
-        longitude: 2.351499,
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
         zoom: 13
       }
     },
     location: {
-      latitude: 48.868610000000004,
-      longitude: 2.342499,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 16
     },
     isFavorite: false,
@@ -33,16 +33,16 @@ export const PLACE_CARD_ARRAY: IPlaceCard[] = [
     title: 'Wood and stone place',
     type: 'room',
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: 48.85661,
-        longitude: 2.351499,
+        latitude: 52.3609553943508,
+        longitude: 4.85309666406198,
         zoom: 13
       }
     },
     location: {
-      latitude: 48.868610000000004,
-      longitude: 2.342499,
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
       zoom: 16
     },
     isFavorite: false,
@@ -56,16 +56,16 @@ export const PLACE_CARD_ARRAY: IPlaceCard[] = [
     title: 'Canal View Prinsengracht',
     type: 'apartment',
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: 48.85661,
-        longitude: 2.351499,
+        latitude: 52.3909553943508,
+        longitude: 4.929309666406198,
         zoom: 13
       }
     },
     location: {
-      latitude: 48.868610000000004,
-      longitude: 2.342499,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 16
     },
     isFavorite: false,
@@ -79,39 +79,16 @@ export const PLACE_CARD_ARRAY: IPlaceCard[] = [
     title: 'Nice, cozy, warm big bed apartment',
     type: 'apartment',
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
-        latitude: 48.85661,
-        longitude: 2.351499,
+        latitude: 52.3809553943508,
+        longitude: 4.939309666406198,
         zoom: 13
       }
     },
     location: {
-      latitude: 48.868610000000004,
-      longitude: 2.342499,
-      zoom: 16
-    },
-    isFavorite: false,
-  },
-  {
-    id: 'uuid-4',
-    rating: 4.2,
-    isPremium: false,
-    previewImage: 'img/room.jpg',
-    price: 80,
-    title: 'Wood and stone place',
-    type: 'room',
-    city: {
-      name: 'Paris',
-      location: {
-        latitude: 48.85661,
-        longitude: 2.351499,
-        zoom: 13
-      }
-    },
-    location: {
-      latitude: 48.868610000000004,
-      longitude: 2.342499,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 16
     },
     isFavorite: false,
@@ -124,16 +101,16 @@ export const OFFER: IOffer = {
   type: 'apartment',
   price: 150,
   city: {
-    name: 'Paris',
+    name: 'Amsterdam',
     location: {
-      latitude: 48.85661,
-      longitude: 2.351499,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 13
     }
   },
   location: {
-    latitude: 48.858854,
-    longitude: 2.347035,
+    latitude: 52.3809553943508,
+    longitude: 4.939309666406198,
     zoom: 16
   },
   isPremium: true,
