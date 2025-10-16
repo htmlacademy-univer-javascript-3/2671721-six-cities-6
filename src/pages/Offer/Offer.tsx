@@ -7,7 +7,7 @@ import {
 } from '../../common/widgets/ReviewCardList/ReviewCardList.tsx';
 import { ReviewForm } from '../../common/components/ReviewForm/ReviewForm.tsx';
 import { Map } from '../../common/components/Map/Map.tsx';
-import {useAppSelector} from '../../store/hooks.ts';
+import { useAppSelector } from '../../store/hooks.ts';
 import {
   PlaceCardList
 } from '../../common/widgets/PlaceCardList/PlaceCardList.tsx';
@@ -18,7 +18,7 @@ interface IOfferProps {
 }
 
 export const Offer: FC<IOfferProps> = ({ offer, reviewArray}) => {
-  const { city,
+  const {
     images,
     type,
     description,
@@ -134,8 +134,6 @@ export const Offer: FC<IOfferProps> = ({ offer, reviewArray}) => {
           <section className="offer__map map">
             <Map
               placeCardArray={placeCards.slice(0, 3)}
-              activeCity={city.name}
-              activeOfferTitle={title}
             />
           </section>
         </section>

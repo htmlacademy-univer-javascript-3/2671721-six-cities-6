@@ -2,6 +2,8 @@ import { FC } from 'react';
 import { IPlaceCard, PlaceCardType } from '../../types.ts';
 import { calculateRatingPercent } from '../../utils.ts';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../../store/hooks.ts';
+import { setActivePlaceCardId } from '../../../store/action.ts';
 
 interface IPlaceCardProps {
   cardType: PlaceCardType;
@@ -13,7 +15,6 @@ interface IPlaceCardProps {
   isFavorite: IPlaceCard['isFavorite'];
   previewImage: IPlaceCard['previewImage'];
   rating: IPlaceCard['rating'];
-  handleClick?: (title: string) => void;
 }
 
 export const PlaceCard: FC<IPlaceCardProps> = (props) => {
@@ -27,12 +28,24 @@ export const PlaceCard: FC<IPlaceCardProps> = (props) => {
     previewImage,
     price,
     rating,
-    handleClick,
   } = props;
   const isWide = cardType === PlaceCardType.WIDE;
+  const dispatch = useAppDispatch();
+
+  const handleMouseOver = () =>{
+    dispatch(setActivePlaceCardId(id));
+  };
+
+  const handleMouseOut = () =>{
+    dispatch(setActivePlaceCardId(null));
+  };
 
   return (
-    <article className={`${cardType}__card place-card`} onClick={() => handleClick?.(title)}>
+    <article
+      className={`${cardType}__card place-card`}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+    >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
