@@ -5,14 +5,15 @@ import {
   FavoriteLocation
 } from '../../common/widgets/FavoriteLocation/FavoriteLocation.tsx';
 import { groupPlaceCardsByCity } from '../../common/utils.ts';
-import { IPlaceCard } from '../../common/types.ts';
+import { useAppSelector } from '../../store/hooks.ts';
 
 interface IFavoritesProps {
-  placeCardArray: IPlaceCard[];
 }
 
-export const Favorites: FC<IFavoritesProps> = ({ placeCardArray }) => {
-  const favotiteLocations = groupPlaceCardsByCity(placeCardArray);
+export const Favorites: FC<IFavoritesProps> = () => {
+  const placeCards = useAppSelector((state) => state.placeCards);
+  const favoritePlaceCards = placeCards.filter((placeCard) => placeCard.isFavorite);
+  const favotiteLocations = groupPlaceCardsByCity(favoritePlaceCards);
 
   return (
     <div className="page">

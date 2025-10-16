@@ -1,11 +1,5 @@
 import { FC } from 'react';
-import { PlaceCard } from '../../common/components/PlaceCard/PlaceCard.tsx';
-import {
-  IOffer,
-  IPlaceCard,
-  IReview,
-  PlaceCardType
-} from '../../common/types.ts';
+import { IOffer, IReview } from '../../common/types.ts';
 import { Header } from '../../common/components/Header/Header.tsx';
 import { calculateRatingPercent } from '../../common/utils.ts';
 import {
@@ -13,14 +7,17 @@ import {
 } from '../../common/widgets/ReviewCardList/ReviewCardList.tsx';
 import { ReviewForm } from '../../common/components/ReviewForm/ReviewForm.tsx';
 import { Map } from '../../common/components/Map/Map.tsx';
+import {useAppSelector} from '../../store/hooks.ts';
+import {
+  PlaceCardList
+} from '../../common/widgets/PlaceCardList/PlaceCardList.tsx';
 
 interface IOfferProps {
-  placeCardArray: IPlaceCard[];
   offer: IOffer;
   reviewArray: IReview[];
 }
 
-export const Offer: FC<IOfferProps> = ({ placeCardArray, offer, reviewArray}) => {
+export const Offer: FC<IOfferProps> = ({ offer, reviewArray}) => {
   const { city,
     images,
     type,
@@ -33,6 +30,8 @@ export const Offer: FC<IOfferProps> = ({ placeCardArray, offer, reviewArray}) =>
     bedrooms,
     maxAdults,
   } = offer;
+  const placeCards = useAppSelector((state) => state.placeCards);
+
   return (
     <div className="page">
       <Header isAuthenticated />
@@ -134,7 +133,7 @@ export const Offer: FC<IOfferProps> = ({ placeCardArray, offer, reviewArray}) =>
           </div>
           <section className="offer__map map">
             <Map
-              placeCardArray={placeCardArray.slice(0, 3)}
+              placeCardArray={placeCards.slice(0, 3)}
               activeCity={city.name}
               activeOfferTitle={title}
             />
@@ -145,20 +144,7 @@ export const Offer: FC<IOfferProps> = ({ placeCardArray, offer, reviewArray}) =>
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {placeCardArray.slice(0, 3).map((place) => (
-                <PlaceCard
-                  cardType={PlaceCardType.DEFAULT}
-                  id={place.id}
-                  title={place.title}
-                  type={place.type}
-                  price={place.price}
-                  previewImage={place.previewImage}
-                  isPremium={place.isPremium}
-                  isFavorite={place.isFavorite}
-                  rating={place.rating}
-                  key={place.id}
-                />
-              ))}
+              <PlaceCardList placeCardList={placeCards.slice(0, 3)} />
             </div>
           </section>
         </div>
