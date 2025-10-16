@@ -1,4 +1,4 @@
-import { City, ILocation } from './types.ts';
+import { City, ILocation, SortingType } from './types.ts';
 import { Icon } from 'leaflet';
 
 export const CITIES = Object.values(City);
@@ -47,3 +47,5 @@ export const currentCustomIcon = new Icon({
   iconSize: [40, 40],
   iconAnchor: [20, 40]
 });
+
+export const SORTING_TYPES = Object.values(SortingType);
