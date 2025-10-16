@@ -1,18 +1,18 @@
 import { FC, useState} from 'react';
-import { CITIES } from '../../common/const.ts';
-import { ICity, IPlaceCard } from '../../common/types.ts';
 import { Header } from '../../common/components/Header/Header.tsx';
 import { Map } from '../../common/components/Map/Map.tsx';
 import {
   PlaceCardList
 } from '../../common/widgets/PlaceCardList/PlaceCardList.tsx';
+import { LocationList } from '../../common/widgets/LocationList/LocationList.tsx';
+import { useAppSelector } from '../../store/hooks.ts';
 
 interface IMainProps {
-  placeCardArray: IPlaceCard[];
 }
 
-export const Main: FC<IMainProps> = ({ placeCardArray }) => {
-  const [activeCity, setActiveCity] = useState<ICity['name']>('Amsterdam');
+export const Main: FC<IMainProps> = () => {
+  const placeCards = useAppSelector((state) => state.placeCards);
+  const activeCity = useAppSelector((state) => state.activeCity);
   const [activeOfferTitle, setActiveOfferTitle] = useState<string | null>(null);
 
   return (
@@ -24,15 +24,7 @@ export const Main: FC<IMainProps> = ({ placeCardArray }) => {
 
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              {CITIES.map((city) => (
-                <li key={city} className="locations__item" onClick={() => setActiveCity(city)}>
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>{city}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <LocationList />
           </section>
         </div>
 
@@ -41,7 +33,7 @@ export const Main: FC<IMainProps> = ({ placeCardArray }) => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {placeCardArray.length} places to stay in Amsterdam
+                {placeCards.length} places to stay in {activeCity}
               </b>
 
               <form className="places__sorting" action="#" method="get">
@@ -67,13 +59,13 @@ export const Main: FC<IMainProps> = ({ placeCardArray }) => {
                 </ul>
               </form>
 
-              <PlaceCardList placeCardList={placeCardArray} handleClick={setActiveOfferTitle}/>
+              <PlaceCardList placeCardList={placeCards} handleClick={setActiveOfferTitle}/>
             </section>
 
             <div className="cities__right-section">
               <section className="cities__map map">
                 <Map
-                  placeCardArray={placeCardArray}
+                  placeCardArray={placeCards}
                   activeCity={activeCity}
                   activeOfferTitle={activeOfferTitle}
                 />

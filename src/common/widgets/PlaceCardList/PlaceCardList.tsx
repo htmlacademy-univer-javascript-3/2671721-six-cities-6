@@ -4,7 +4,7 @@ import { IPlaceCard, PlaceCardType } from '../../types.ts';
 
 interface IPlaceCardListProps {
   placeCardList: IPlaceCard[];
-  handleClick: (title: string) => void;
+  handleClick?: (title: string) => void;
 }
 
 export const PlaceCardList: FC<IPlaceCardListProps> = ({ placeCardList, handleClick }) => (
