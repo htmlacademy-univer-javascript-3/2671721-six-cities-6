@@ -2,23 +2,25 @@ import { City, IPlaceCard, SortingType } from '../common/types.ts';
 import { createReducer } from '@reduxjs/toolkit';
 import { CITIES } from '../common/const.ts';
 import {
-  fillActiveCityPlaceCards,
+  setActiveCityPlaceCards,
   setActiveCityAction,
   setActivePlaceCardId,
-  setActiveSortingTypeAction
+  setActiveSortingTypeAction, setLoading
 } from './action.ts';
 
 interface StoreState {
   activeCity: City;
   placeCards: IPlaceCard[];
   activeSortingType: SortingType;
+  isLoading: boolean;
   activePlaceCardId: IPlaceCard['id'] | null;
 }
 
 const initialState: StoreState = {
   activeCity: CITIES[0],
   placeCards: [],
-  activeSortingType: SortingType.Popular,
+  activeSortingType: SortingType.POPULAR,
+  isLoading: false,
   activePlaceCardId: null,
 };
 
@@ -33,7 +35,10 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setActivePlaceCardId, (state, action) => {
       state.activePlaceCardId = action.payload;
     })
-    .addCase(fillActiveCityPlaceCards, (state, action) => {
+    .addCase(setLoading, (state, action) => {
+      state.isLoading = action.payload;
+    })
+    .addCase(setActiveCityPlaceCards, (state, action) => {
       state.placeCards = action.payload;
     });
 });
