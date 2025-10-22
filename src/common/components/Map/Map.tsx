@@ -1,23 +1,21 @@
 import { FC, useEffect, useRef } from 'react';
 import leaflet, { layerGroup } from 'leaflet';
 import { useMap } from '../../hooks/useMap.tsx';
-import { ICity, IPlaceCard } from '../../types.ts';
+import { IPlaceCard } from '../../types.ts';
 import {
   currentCustomIcon,
   defaultCustomIcon,
-  LOCATIONS
 } from '../../const.ts';
+import { useAppSelector } from '../../../store/hooks.ts';
 
 interface IMapProps {
   placeCardArray: IPlaceCard[];
-  activeCity: ICity['name'];
-  activeOfferTitle: string | null;
 }
 
-export const Map: FC<IMapProps> = ({ placeCardArray, activeCity, activeOfferTitle }) => {
-  const location = LOCATIONS[activeCity];
+export const Map: FC<IMapProps> = ({ placeCardArray}) => {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, location);
+  const map = useMap(mapRef);
+  const activePlaceCardId = useAppSelector((state) => state.activePlaceCardId);
 
   useEffect(() => {
     if (map) {
@@ -27,7 +25,7 @@ export const Map: FC<IMapProps> = ({ placeCardArray, activeCity, activeOfferTitl
           lat: place.location.latitude,
           lng: place.location.longitude,
         }, {
-          icon: place.title === activeOfferTitle ? currentCustomIcon : defaultCustomIcon,
+          icon: place.id === activePlaceCardId ? currentCustomIcon : defaultCustomIcon,
         }).addTo(map);
       });
 
@@ -35,7 +33,7 @@ export const Map: FC<IMapProps> = ({ placeCardArray, activeCity, activeOfferTitl
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, placeCardArray, activeOfferTitle]);
+  }, [map, placeCardArray, activePlaceCardId]);
 
   return <div style={{ height: '100%', width: '100%' }} ref={mapRef}></div>;
 };

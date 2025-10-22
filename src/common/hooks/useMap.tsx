@@ -1,14 +1,16 @@
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
-import { ILocation } from '../types.ts';
 import leaflet, { Map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useAppSelector } from '../../store/hooks.ts';
+import { LOCATIONS } from '../const.ts';
 
 export function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
-  location: ILocation
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
+  const activeCity = useAppSelector((state) => state.activeCity);
+  const location = LOCATIONS[activeCity];
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
@@ -32,6 +34,12 @@ export function useMap(
       isRenderedRef.current = true;
     }
   }, [mapRef, location]);
+
+  useEffect(() => {
+    if (map) {
+      map.setView([location.latitude, location.longitude], location.zoom);
+    }
+  }, [map, location]);
 
   return map;
 }

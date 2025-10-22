@@ -1,4 +1,4 @@
-import { IGroupedPlaceCard, IPlaceCard } from './types.ts';
+import { IGroupedPlaceCard, IPlaceCard, SortingType } from './types.ts';
 
 export const groupPlaceCardsByCity = (places: IPlaceCard[]): IGroupedPlaceCard => (
   places.reduce((acc: IGroupedPlaceCard, place) => {
@@ -20,4 +20,21 @@ export const getDate = (dt: string) => {
   const month = date.toLocaleString('en-US', { month: 'long' });
   const year = date.getFullYear();
   return `${month} ${year}`;
+};
+
+export const getSortingFunction = (sortingType: SortingType) => {
+  switch (sortingType) {
+    case SortingType.HightToLow: {
+      return (a: IPlaceCard, b: IPlaceCard) => b.price - a.price;
+    }
+    case SortingType.LowToHight: {
+      return (a: IPlaceCard, b: IPlaceCard) => a.price - b.price;
+    }
+    case SortingType.TopRating: {
+      return (a: IPlaceCard, b: IPlaceCard) => b.rating - a.rating;
+    }
+    default: {
+      return () => 0;
+    }
+  }
 };
