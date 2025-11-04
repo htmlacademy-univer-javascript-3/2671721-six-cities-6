@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { IOffer, IReview } from '../../common/types.ts';
 import { Header } from '../../common/components/Header/Header.tsx';
 import { calculateRatingPercent } from '../../common/utils.ts';
 import {
@@ -11,13 +10,13 @@ import { useAppSelector } from '../../store/hooks.ts';
 import {
   PlaceCardList
 } from '../../common/widgets/PlaceCardList/PlaceCardList.tsx';
+import { OFFER } from '../../mocks/offers.ts';
+import { REVIEW_ARRAY } from '../../mocks/reviews.ts';
 
 interface IOfferProps {
-  offer: IOffer;
-  reviewArray: IReview[];
 }
 
-export const Offer: FC<IOfferProps> = ({ offer, reviewArray}) => {
+export const Offer: FC<IOfferProps> = () => {
   const {
     images,
     type,
@@ -29,7 +28,7 @@ export const Offer: FC<IOfferProps> = ({ offer, reviewArray}) => {
     goods,
     bedrooms,
     maxAdults,
-  } = offer;
+  } = OFFER;
   const placeCards = useAppSelector((state) => state.placeCards);
 
   return (
@@ -126,7 +125,7 @@ export const Offer: FC<IOfferProps> = ({ offer, reviewArray}) => {
               </div>
 
               <section className="offer__reviews reviews">
-                <ReviewCardList reviewCardList={reviewArray} />
+                <ReviewCardList reviewCardList={REVIEW_ARRAY} />
                 <ReviewForm />
               </section>
             </div>

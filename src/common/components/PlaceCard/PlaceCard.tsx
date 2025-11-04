@@ -4,6 +4,7 @@ import { calculateRatingPercent } from '../../utils.ts';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../../store/hooks.ts';
 import { setActivePlaceCardId } from '../../../store/action.ts';
+import {Path} from '../../const.ts';
 
 interface IPlaceCardProps {
   cardType: PlaceCardType;
@@ -53,7 +54,7 @@ export const PlaceCard: FC<IPlaceCardProps> = (props) => {
       )}
 
       <div className={`${cardType}__image-wrapper place-card__image-wrapper`}>
-        <Link to={`/offer/${id}`}>
+        <Link to={`${Path.OFFER}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -87,7 +88,7 @@ export const PlaceCard: FC<IPlaceCardProps> = (props) => {
         </div>
 
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{title}</Link>
+          <Link to={`${Path.OFFER}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

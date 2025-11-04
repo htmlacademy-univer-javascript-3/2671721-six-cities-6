@@ -49,3 +49,14 @@ export const currentCustomIcon = new Icon({
 });
 
 export const SORTING_TYPES = Object.values(SortingType);
+
+export enum Path {
+  MAIN = '/',
+  OFFER = '/offer',
+  OFFERS = '/offers',
+  FAVORITE = '/favorite',
+  FAVORITES = '/favorites',
+  COMMENTS = '/comments',
+  LOGIN = '/login',
+  LOGOUT = '/logout',
+}

@@ -24,13 +24,13 @@ export const getDate = (dt: string) => {
 
 export const getSortingFunction = (sortingType: SortingType) => {
   switch (sortingType) {
-    case SortingType.HightToLow: {
+    case SortingType.HIGHT_TO_LOW: {
       return (a: IPlaceCard, b: IPlaceCard) => b.price - a.price;
     }
-    case SortingType.LowToHight: {
+    case SortingType.LOW_TO_HIGH: {
       return (a: IPlaceCard, b: IPlaceCard) => a.price - b.price;
     }
-    case SortingType.TopRating: {
+    case SortingType.TOP_RATING: {
       return (a: IPlaceCard, b: IPlaceCard) => b.rating - a.rating;
     }
     default: {
