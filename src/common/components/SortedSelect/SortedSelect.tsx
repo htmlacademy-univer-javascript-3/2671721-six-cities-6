@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
-import { SortingType } from '../../types.ts';
+import { SortingType } from '../../types/app.ts';
 import { setActiveSortingTypeAction } from '../../../store/action.ts';
 import { SORTING_TYPES } from '../../const.ts';
 

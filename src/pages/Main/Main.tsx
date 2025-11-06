@@ -5,7 +5,7 @@ import {
   PlaceCardList
 } from '../../common/widgets/PlaceCardList/PlaceCardList.tsx';
 import { LocationList } from '../../common/widgets/LocationList/LocationList.tsx';
-import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
+import { useAppDispatch, useAppSelector } from '../../store/hooks.ts';
 import {
   SortedSelect
 } from '../../common/components/SortedSelect/SortedSelect.tsx';
@@ -34,7 +34,7 @@ export const Main: FC<IMainProps> = () => {
 
   return (
     <div className="page page--gray page--main">
-      <Header isAuthenticated />
+      <Header />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>

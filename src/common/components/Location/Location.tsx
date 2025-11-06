@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { City } from '../../types.ts';
+import { City } from '../../types/app.ts';
 import { useAppDispatch } from '../../../store/hooks.ts';
 import { setActiveCityAction } from '../../../store/action.ts';
 

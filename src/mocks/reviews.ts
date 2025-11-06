@@ -1,4 +1,4 @@
-import { IReview } from '../common/types.ts';
+import { IReview } from '../common/types/app.ts';
 
 export const REVIEW_ARRAY: IReview[] = [
   {

@@ -1,4 +1,4 @@
-import { IOffer } from '../common/types.ts';
+import { IOffer } from '../common/types/app.ts';
 
 export const OFFER: IOffer = {
   id: '1',

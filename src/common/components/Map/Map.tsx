@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from 'react';
 import leaflet, { layerGroup } from 'leaflet';
 import { useMap } from '../../hooks/useMap.tsx';
-import { IPlaceCard } from '../../types.ts';
+import { IPlaceCard } from '../../types/app.ts';
 import {
   currentCustomIcon,
   defaultCustomIcon,
