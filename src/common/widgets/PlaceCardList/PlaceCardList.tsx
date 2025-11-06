@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { PlaceCard } from '../../components/PlaceCard/PlaceCard.tsx';
-import { IPlaceCard, PlaceCardType } from '../../types.ts';
+import { IPlaceCard, PlaceCardType } from '../../types/app.ts';
 
 interface IPlaceCardListProps {
   placeCardList: IPlaceCard[];

@@ -1,4 +1,4 @@
-import {FC, useEffect} from 'react';
+import { FC, useEffect } from 'react';
 import { Header } from '../../common/components/Header/Header.tsx';
 import { Footer } from '../../common/components/Footer/Footer.tsx';
 import {
@@ -7,7 +7,7 @@ import {
 import { groupPlaceCardsByCity } from '../../common/utils.ts';
 import { useAppDispatch, useAppSelector } from '../../store/hooks.ts';
 import { fetchFavoritesOffers } from '../../store/api-actions.ts';
-import {Spinner} from '../../common/components/Spinner/Spinner.tsx';
+import { Spinner } from '../../common/components/Spinner/Spinner.tsx';
 
 interface IFavoritesProps {
 }
@@ -29,7 +29,7 @@ export const Favorites: FC<IFavoritesProps> = () => {
 
   return (
     <div className="page">
-      <Header isAuthenticated />
+      <Header />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">

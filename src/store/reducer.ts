@@ -1,12 +1,16 @@
-import { City, IPlaceCard, SortingType } from '../common/types.ts';
+import { City, IPlaceCard, SortingType } from '../common/types/app.ts';
 import { createReducer } from '@reduxjs/toolkit';
 import { CITIES } from '../common/const.ts';
 import {
   setActiveCityPlaceCards,
   setActiveCityAction,
   setActivePlaceCardId,
-  setActiveSortingTypeAction, setLoading
+  setActiveSortingTypeAction,
+  setLoading,
+  setAuthorizationStatus,
+  setUserData,
 } from './action.ts';
+import { AuthResponse } from '../common/types/auth.ts';
 
 interface StoreState {
   activeCity: City;
@@ -14,6 +18,8 @@ interface StoreState {
   activeSortingType: SortingType;
   isLoading: boolean;
   activePlaceCardId: IPlaceCard['id'] | null;
+  authorizationStatus: boolean;
+  userData: AuthResponse | null;
 }
 
 const initialState: StoreState = {
@@ -22,6 +28,8 @@ const initialState: StoreState = {
   activeSortingType: SortingType.POPULAR,
   isLoading: false,
   activePlaceCardId: null,
+  authorizationStatus: false,
+  userData: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -38,7 +46,13 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setLoading, (state, action) => {
       state.isLoading = action.payload;
     })
+    .addCase(setAuthorizationStatus, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
     .addCase(setActiveCityPlaceCards, (state, action) => {
       state.placeCards = action.payload;
+    })
+    .addCase(setUserData, (state, action) => {
+      state.userData = action.payload;
     });
 });

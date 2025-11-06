@@ -33,7 +33,7 @@ export const Offer: FC<IOfferProps> = () => {
 
   return (
     <div className="page">
-      <Header isAuthenticated />
+      <Header />
 
       <main className="page__main page__main--offer">
         <section className="offer">

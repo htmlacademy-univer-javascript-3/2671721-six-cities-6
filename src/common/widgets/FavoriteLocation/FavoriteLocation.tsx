@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IPlaceCard, PlaceCardType } from '../../types.ts';
+import { IPlaceCard, PlaceCardType } from '../../types/app.ts';
 import { PlaceCard } from '../../components/PlaceCard/PlaceCard.tsx';
 
 interface IFavoriteLocationProps {

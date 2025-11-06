@@ -1,4 +1,4 @@
-import { City, ILocation, SortingType } from './types.ts';
+import { City, ILocation, SortingType } from './types/app.ts';
 import { Icon } from 'leaflet';
 
 export const CITIES = Object.values(City);
@@ -59,4 +59,13 @@ export enum Path {
   COMMENTS = '/comments',
   LOGIN = '/login',
   LOGOUT = '/logout',
+}
+
+export const AUTH_TOKEN_KEY_NAME = 'six-cities-auth-token';
+
+export enum ResponseCode {
+  OK = 200,
+  INVALID_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  INTERNAL_SERVER_ERROR = 500,
 }

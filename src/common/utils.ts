@@ -1,4 +1,5 @@
-import { IGroupedPlaceCard, IPlaceCard, SortingType } from './types.ts';
+import { IGroupedPlaceCard, IPlaceCard, SortingType } from './types/app.ts';
+import {AUTH_TOKEN_KEY_NAME, ResponseCode} from './const.ts';
 
 export const groupPlaceCardsByCity = (places: IPlaceCard[]): IGroupedPlaceCard => (
   places.reduce((acc: IGroupedPlaceCard, place) => {
@@ -38,3 +39,19 @@ export const getSortingFunction = (sortingType: SortingType) => {
     }
   }
 };
+
+export const getToken = (): string => {
+  const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
+  return token ?? '';
+};
+
+export const saveToken = (token: string): void => {
+  localStorage.setItem(AUTH_TOKEN_KEY_NAME, token);
+};
+
+export const dropToken = (): void => {
+  localStorage.removeItem(AUTH_TOKEN_KEY_NAME);
+};
+
+export const isResponseCode = (status: unknown): status is ResponseCode =>
+  Object.values(ResponseCode).includes(status as ResponseCode);

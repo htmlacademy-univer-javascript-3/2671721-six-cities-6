@@ -9,18 +9,21 @@ import {
 import { Favorites } from '../pages/Favorites/Favorites.tsx';
 import { NotFound } from '../pages/NotFound/NotFound.tsx';
 import { Path } from '../common/const.ts';
+import { Layout } from '../common/components/Layout/Layout.tsx';
 
 interface IAppRoutesProps {
 }
 
 export const AppRoutes: FC<IAppRoutesProps> = () => (
   <Routes>
-    <Route index element={<Main />} />
-    <Route path={Path.LOGIN} element={<Login />} />
-    <Route path={`${Path.OFFERS}/:id`} element={<Offer />}/>
-    <Route element={<ProtectedRoute />}>
-      <Route path={Path.FAVORITES} element={<Favorites />}/>
+    <Route element={<Layout />}>
+      <Route index element={<Main />} />
+      <Route path={Path.LOGIN} element={<Login />} />
+      <Route path={`${Path.OFFERS}/:id`} element={<Offer />}/>
+      <Route element={<ProtectedRoute />}>
+        <Route path={Path.FAVORITES} element={<Favorites />}/>
+      </Route>
+      <Route path="*" element={<NotFound />} />
     </Route>
-    <Route path="*" element={<NotFound />} />
   </Routes>
 );

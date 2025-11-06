@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IReview } from '../../types.ts';
+import { IReview } from '../../types/app.ts';
 import { calculateRatingPercent, getDate } from '../../utils.ts';
 
 interface IReviewCardProps extends Omit<IReview, 'id'> {

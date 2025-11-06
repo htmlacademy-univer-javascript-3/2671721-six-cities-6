@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IPlaceCard, PlaceCardType } from '../../types.ts';
+import { IPlaceCard, PlaceCardType } from '../../types/app.ts';
 import { calculateRatingPercent } from '../../utils.ts';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../../store/hooks.ts';

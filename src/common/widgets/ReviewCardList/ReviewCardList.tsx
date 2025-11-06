@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IReview } from '../../types.ts';
+import { IReview } from '../../types/app.ts';
 import { ReviewCard } from '../../components/ReviewCard/ReviewCard.tsx';
 
 interface IReviewCardListProps {
