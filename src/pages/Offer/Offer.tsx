@@ -1,5 +1,5 @@
-import {FC, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import { FC, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Header } from '../../common/components/Header/Header.tsx';
 import { calculateRatingPercent } from '../../common/utils.ts';
 import {
@@ -7,7 +7,7 @@ import {
 } from '../../common/widgets/ReviewCardList/ReviewCardList.tsx';
 import { ReviewForm } from '../../common/components/ReviewForm/ReviewForm.tsx';
 import { Map } from '../../common/components/Map/Map.tsx';
-import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
+import { useAppDispatch, useAppSelector } from '../../store/hooks.ts';
 import {
   PlaceCardList
 } from '../../common/widgets/PlaceCardList/PlaceCardList.tsx';
@@ -16,8 +16,8 @@ import {
   fetchOfferData,
   fetchReviews
 } from '../../store/api-actions.ts';
-import {NotFound} from '../NotFound/NotFound.tsx';
-import {Spinner} from '../../common/components/Spinner/Spinner.tsx';
+import { NotFound } from '../NotFound/NotFound.tsx';
+import { Spinner } from '../../common/components/Spinner/Spinner.tsx';
 
 interface IOfferProps {
 }

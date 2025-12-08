@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { City, IOffer, IPlaceCard, IReview } from '../common/types/app.ts';
 import { AxiosInstance } from 'axios';
-import {Path, ResponseCode} from '../common/const.ts';
+import { Path, ResponseCode } from '../common/const.ts';
 import { AppDispatch, AppRootStateType } from './types.ts';
 import {
   setActiveCityPlaceCards,
@@ -13,7 +13,7 @@ import {
   setUserData,
 } from './action.ts';
 import { AuthRequest, AuthResponse } from '../common/types/auth.ts';
-import { dropToken, saveToken } from '../common/utils.ts';
+import { dropToken, isResponseCode, saveToken } from '../common/utils.ts';
 
 export const fetchOffers = createAsyncThunk<
   void,
@@ -134,7 +134,7 @@ export const postReview = createAsyncThunk<
       comment: comment,
       rating: rating,
     });
-    if (response.status as ResponseCode === ResponseCode.CREATED) {
+    if (isResponseCode(response.status) && response.status === ResponseCode.CREATED) {
       dispatch(fetchReviews(offerId));
     }
   });
