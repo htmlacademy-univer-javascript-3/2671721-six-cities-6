@@ -65,6 +65,7 @@ export const AUTH_TOKEN_KEY_NAME = 'six-cities-auth-token';
 
 export enum ResponseCode {
   OK = 200,
+  CREATED = 201,
   INVALID_REQUEST = 400,
   UNAUTHORIZED = 401,
   INTERNAL_SERVER_ERROR = 500,

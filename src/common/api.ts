@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
-import {dropToken, getToken, isResponseCode} from './utils.ts';
+import { dropToken, getToken, isResponseCode } from './utils.ts';
 import { ResponseCode } from './const.ts';
 import { AuthError } from './types/auth.ts';
 import { useAppDispatch } from '../store/hooks.ts';

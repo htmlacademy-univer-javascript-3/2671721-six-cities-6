@@ -1,4 +1,10 @@
-import { City, IPlaceCard, SortingType } from '../common/types/app.ts';
+import {
+  City,
+  IOffer,
+  IPlaceCard,
+  IReview,
+  SortingType
+} from '../common/types/app.ts';
 import { createReducer } from '@reduxjs/toolkit';
 import { CITIES } from '../common/const.ts';
 import {
@@ -9,6 +15,9 @@ import {
   setLoading,
   setAuthorizationStatus,
   setUserData,
+  setOfferData,
+  setReviews,
+  setNearbyOffers,
 } from './action.ts';
 import { AuthResponse } from '../common/types/auth.ts';
 
@@ -20,6 +29,10 @@ interface StoreState {
   activePlaceCardId: IPlaceCard['id'] | null;
   authorizationStatus: boolean;
   userData: AuthResponse | null;
+  offerId: string | null;
+  offerData: IOffer | null;
+  reviews: IReview[];
+  nearbyOffers: IPlaceCard[];
 }
 
 const initialState: StoreState = {
@@ -30,6 +43,10 @@ const initialState: StoreState = {
   activePlaceCardId: null,
   authorizationStatus: false,
   userData: null,
+  offerId: null,
+  offerData: null,
+  reviews: [],
+  nearbyOffers: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -54,5 +71,14 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserData, (state, action) => {
       state.userData = action.payload;
+    })
+    .addCase(setOfferData, (state, action) => {
+      state.offerData = action.payload;
+    })
+    .addCase(setReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(setNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
     });
 });

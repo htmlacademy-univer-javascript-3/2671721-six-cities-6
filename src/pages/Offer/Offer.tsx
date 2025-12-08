@@ -1,4 +1,5 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Header } from '../../common/components/Header/Header.tsx';
 import { calculateRatingPercent } from '../../common/utils.ts';
 import {
@@ -6,17 +7,46 @@ import {
 } from '../../common/widgets/ReviewCardList/ReviewCardList.tsx';
 import { ReviewForm } from '../../common/components/ReviewForm/ReviewForm.tsx';
 import { Map } from '../../common/components/Map/Map.tsx';
-import { useAppSelector } from '../../store/hooks.ts';
+import { useAppDispatch, useAppSelector } from '../../store/hooks.ts';
 import {
   PlaceCardList
 } from '../../common/widgets/PlaceCardList/PlaceCardList.tsx';
-import { OFFER } from '../../mocks/offers.ts';
-import { REVIEW_ARRAY } from '../../mocks/reviews.ts';
+import {
+  fetchNearbyOffers,
+  fetchOfferData,
+  fetchReviews
+} from '../../store/api-actions.ts';
+import { NotFound } from '../NotFound/NotFound.tsx';
+import { Spinner } from '../../common/components/Spinner/Spinner.tsx';
 
 interface IOfferProps {
 }
 
 export const Offer: FC<IOfferProps> = () => {
+  const { id } = useParams();
+  const isAuthenticated = useAppSelector((state) => state.authorizationStatus);
+  const isLoading = useAppSelector((state) => state.isLoading);
+  const offerData = useAppSelector((state) => state.offerData);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const reviews = useAppSelector((state) => state.reviews);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if(id){
+      dispatch(fetchOfferData(id));
+      dispatch(fetchNearbyOffers(id));
+      dispatch(fetchReviews(id));
+    }
+  }, [dispatch, id]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (!offerData) {
+    return <NotFound />;
+  }
+
   const {
     images,
     type,
@@ -28,8 +58,7 @@ export const Offer: FC<IOfferProps> = () => {
     goods,
     bedrooms,
     maxAdults,
-  } = OFFER;
-  const placeCards = useAppSelector((state) => state.placeCards);
+  } = offerData;
 
   return (
     <div className="page">
@@ -125,15 +154,15 @@ export const Offer: FC<IOfferProps> = () => {
               </div>
 
               <section className="offer__reviews reviews">
-                <ReviewCardList reviewCardList={REVIEW_ARRAY} />
-                <ReviewForm />
+                {reviews.length && <ReviewCardList reviewCardList={reviews} />}
+                {isAuthenticated && (
+                  <ReviewForm offerId={id!} />
+                )}
               </section>
             </div>
           </div>
           <section className="offer__map map">
-            <Map
-              placeCardArray={placeCards.slice(0, 3)}
-            />
+            <Map placeCardArray={nearbyOffers}/>
           </section>
         </section>
 
@@ -141,7 +170,7 @@ export const Offer: FC<IOfferProps> = () => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <PlaceCardList placeCardList={placeCards.slice(0, 3)} />
+              {nearbyOffers.length && <PlaceCardList placeCardList={nearbyOffers} />}
             </div>
           </section>
         </div>

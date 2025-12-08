@@ -1,5 +1,5 @@
 import { IGroupedPlaceCard, IPlaceCard, SortingType } from './types/app.ts';
-import {AUTH_TOKEN_KEY_NAME, ResponseCode} from './const.ts';
+import { AUTH_TOKEN_KEY_NAME, ResponseCode } from './const.ts';
 
 export const groupPlaceCardsByCity = (places: IPlaceCard[]): IGroupedPlaceCard => (
   places.reduce((acc: IGroupedPlaceCard, place) => {
