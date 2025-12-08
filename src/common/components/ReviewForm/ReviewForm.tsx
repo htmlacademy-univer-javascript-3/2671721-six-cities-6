@@ -1,14 +1,22 @@
 import { ChangeEvent, FC, FormEvent, Fragment, useState } from 'react';
+import { useAppDispatch } from '../../../store/hooks.ts';
+import { postReview } from '../../../store/api-actions.ts';
 
 interface IReviewFormProps {
+  offerId: string;
 }
 
-export const ReviewForm: FC<IReviewFormProps> = () => {
+export const ReviewForm: FC<IReviewFormProps> = ({ offerId }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleSubmitReview = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    dispatch(postReview({ offerId, comment, rating }));
+    setRating(0);
+    setComment('');
   };
 
   const handleRatingChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,12 +63,16 @@ export const ReviewForm: FC<IReviewFormProps> = () => {
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set
+          To submit review please make sure to set&nbsp;
           <span className="reviews__star">rating</span>
-          and describe your stay with at least
+          and describe your stay with at least&nbsp;
           <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit">
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled={!rating || comment.length < 50 || comment.length > 300}
+        >
           Submit
         </button>
       </div>

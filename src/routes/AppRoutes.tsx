@@ -19,7 +19,7 @@ export const AppRoutes: FC<IAppRoutesProps> = () => (
     <Route element={<Layout />}>
       <Route index element={<Main />} />
       <Route path={Path.LOGIN} element={<Login />} />
-      <Route path={`${Path.OFFERS}/:id`} element={<Offer />}/>
+      <Route path={`${Path.OFFER}/:id`} element={<Offer />}/>
       <Route element={<ProtectedRoute />}>
         <Route path={Path.FAVORITES} element={<Favorites />}/>
       </Route>
