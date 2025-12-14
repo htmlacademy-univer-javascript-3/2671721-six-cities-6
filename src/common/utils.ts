@@ -1,5 +1,5 @@
 import { IGroupedPlaceCard, IPlaceCard, SortingType } from './types/app.ts';
-import { AUTH_TOKEN_KEY_NAME, ResponseCode } from './const.ts';
+import { AUTH_TOKEN_KEY_NAME, Path, ResponseCode } from './const.ts';
 
 export const groupPlaceCardsByCity = (places: IPlaceCard[]): IGroupedPlaceCard => (
   places.reduce((acc: IGroupedPlaceCard, place) => {
@@ -55,3 +55,6 @@ export const dropToken = (): void => {
 
 export const isResponseCode = (status: unknown): status is ResponseCode =>
   Object.values(ResponseCode).includes(status as ResponseCode);
+
+export const isPath = (path: unknown): path is Path =>
+  Object.values(Path).includes(path as Path);

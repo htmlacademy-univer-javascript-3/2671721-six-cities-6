@@ -24,6 +24,10 @@ export const PlaceCardList: FC<IPlaceCardListProps> = ({ placeCardList, isMain =
 
 export const MemorizedPlaceCardList = memo(PlaceCardList,
   (prevProps, nextProps) =>
-    prevProps.placeCardList === nextProps.placeCardList
+    prevProps.placeCardList.length === nextProps.placeCardList.length
+    && prevProps.placeCardList.every((placeCard, index) =>
+      placeCard.id === nextProps.placeCardList[index].id
+      && placeCard.isFavorite === nextProps.placeCardList[index].isFavorite
+    )
     && prevProps.isMain === nextProps.isMain
 );

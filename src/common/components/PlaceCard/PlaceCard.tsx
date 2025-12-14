@@ -1,10 +1,14 @@
 import { FC, memo } from 'react';
 import { IPlaceCard, PlaceCardType } from '../../types/app.ts';
-import { calculateRatingPercent } from '../../utils.ts';
-import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../../store/hooks.ts';
+import { calculateRatingPercent, isPath } from '../../utils.ts';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
 import { Path } from '../../const.ts';
 import { setActivePlaceCardId } from '../../../store/offers/offers-actions.ts';
+import { getAuthorizationStatus } from '../../../store/user/user-selectors.ts';
+import {
+  changeFavoriteStatus
+} from '../../../store/offers/offers-api-actions.ts';
 
 interface IPlaceCardProps {
   placeCard: IPlaceCard;
@@ -25,6 +29,10 @@ export const PlaceCard: FC<IPlaceCardProps> = ({ placeCard, cardType, isMain = f
   } = placeCard;
   const isWide = cardType === PlaceCardType.WIDE;
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isFavoritePage = isPath(location.pathname) && location.pathname === Path.FAVORITES;
+  const isAuthenticated = useAppSelector(getAuthorizationStatus);
 
   const handleMouseOver = () =>{
     dispatch(setActivePlaceCardId(id));
@@ -32,6 +40,18 @@ export const PlaceCard: FC<IPlaceCardProps> = ({ placeCard, cardType, isMain = f
 
   const handleMouseOut = () =>{
     dispatch(setActivePlaceCardId(null));
+  };
+
+  const handleBookmarkClick = () => {
+    if (!isAuthenticated) {
+      navigate(Path.LOGIN);
+    }
+
+    const status = isFavorite ? 0 : 1;
+    dispatch(changeFavoriteStatus({
+      offerId: id,
+      status: status,
+      isFavoritePage }));
   };
 
   return (
@@ -65,7 +85,11 @@ export const PlaceCard: FC<IPlaceCardProps> = ({ placeCard, cardType, isMain = f
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
-          <button className={`place-card__bookmark-button button ${isFavorite && 'place-card__bookmark-button--active'}`} type="button">
+          <button
+            className={`place-card__bookmark-button button ${isFavorite && 'place-card__bookmark-button--active'}`}
+            type="button"
+            onClick={handleBookmarkClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

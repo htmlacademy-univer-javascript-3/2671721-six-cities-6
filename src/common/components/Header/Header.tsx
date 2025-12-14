@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Path } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
 import {
@@ -7,6 +7,7 @@ import {
   getUserData
 } from '../../../store/user/user-selectors.ts';
 import { logout } from '../../../store/user/user-api-actions.ts';
+import { isPath } from '../../utils.ts';
 
 interface IHeaderProps {
 }
@@ -15,6 +16,8 @@ export const Header: FC<IHeaderProps> = () => {
   const isAuthenticated = useAppSelector(getAuthorizationStatus);
   const userData = useAppSelector(getUserData);
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const isLoginPage = isPath(location.pathname) && location.pathname === Path.LOGIN;
 
   return (
     <header className="header">
@@ -28,33 +31,35 @@ export const Header: FC<IHeaderProps> = () => {
               />
             </Link>
           </div>
-          <nav className="header__nav">
-            <ul className="header__nav-list">
-              {isAuthenticated && (
-                <li className="header__nav-item user">
+          {!isLoginPage && (
+            <nav className="header__nav">
+              <ul className="header__nav-list">
+                {isAuthenticated && (
+                  <li className="header__nav-item user">
+                    <Link
+                      className="header__nav-link header__nav-link--profile"
+                      to={Path.FAVORITES}
+                    >
+                      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                      <span className="header__user-name user__name">
+                        {userData?.email}
+                      </span>
+                      <span className="header__favorite-count">3</span>
+                    </Link>
+                  </li>
+                )}
+                <li className="header__nav-item">
                   <Link
-                    className="header__nav-link header__nav-link--profile"
-                    to={Path.FAVORITES}
+                    className="header__nav-link"
+                    to={isAuthenticated ? Path.MAIN : Path.LOGIN}
+                    onClick={isAuthenticated ? () => dispatch(logout()) : undefined}
                   >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                      {userData?.email}
-                    </span>
-                    <span className="header__favorite-count">3</span>
+                    <span className="header__signout">{isAuthenticated ? 'Sign out' : 'Sign in'}</span>
                   </Link>
                 </li>
-              )}
-              <li className="header__nav-item">
-                <Link
-                  className="header__nav-link"
-                  to={isAuthenticated ? Path.MAIN : Path.LOGIN}
-                  onClick={isAuthenticated ? () => dispatch(logout()) : undefined}
-                >
-                  <span className="header__signout">{isAuthenticated ? 'Sign out' : 'Sign in'}</span>
-                </Link>
-              </li>
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+          )}
         </div>
       </div>
     </header>

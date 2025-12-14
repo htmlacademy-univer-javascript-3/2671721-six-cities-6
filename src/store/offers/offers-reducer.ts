@@ -9,6 +9,7 @@ import {
   setActiveCityAction,
   setActivePlaceCardId,
   setActiveSortingTypeAction,
+  setFavoriteStatus,
   setLoading,
   setNearbyOffers,
   setOfferData,
@@ -59,5 +60,20 @@ export const offersReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setNearbyOffers, (state, action) => {
       state.nearbyOffers = action.payload;
+    })
+    .addCase(setFavoriteStatus, (state, action) => {
+      const { id, isFavorite } = action.payload;
+
+      const index = state.placeCards.findIndex((card) => card.id === id);
+
+      if (index !== -1) {
+        const newPlaceCards = [...state.placeCards];
+        newPlaceCards[index] = {
+          ...newPlaceCards[index],
+          isFavorite: isFavorite
+        };
+
+        state.placeCards = newPlaceCards;
+      }
     });
 });

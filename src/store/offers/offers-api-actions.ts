@@ -4,6 +4,7 @@ import {City, IOffer, IPlaceCard, SortingType} from '../../common/types/app.ts';
 import { AppDispatch, AppRootStateType } from '../types.ts';
 import { Path } from '../../common/const.ts';
 import {
+  setFavoriteStatus,
   setLoading,
   setNearbyOffers,
   setOfferData,
@@ -81,3 +82,25 @@ export const fetchNearbyOffers = createAsyncThunk<
     const response = await api.get<IPlaceCard[]>(`${Path.OFFERS}/${offerId}/nearby`);
     dispatch(setNearbyOffers(response.data.slice(0, 3)));
   });
+
+export const changeFavoriteStatus = createAsyncThunk<
+  void,
+  {
+    offerId: string;
+    status: 0 | 1;
+    isFavoritePage?: boolean;
+  },
+  {
+    dispatch: AppDispatch;
+    state: AppRootStateType;
+    extra: AxiosInstance;
+  }>(
+    'CHANGE_FAVORITE_STATUS',
+    async ({ offerId, status, isFavoritePage }, { dispatch, extra: api }) => {
+      const response = await api.post<IOffer>(`${Path.FAVORITE}/${offerId}/${status}`);
+      dispatch(setFavoriteStatus(response.data));
+      if (isFavoritePage) {
+        dispatch(fetchFavoritesOffers());
+      }
+    }
+  );

@@ -31,5 +31,9 @@ export const FavoriteLocation: FC<IFavoriteLocationProps> = ({ name, places }) =
 export const MemorizedFavoriteLocation = memo(FavoriteLocation,
   (prevProps, nextProps) =>
     prevProps.name === nextProps.name
-    && prevProps.places === nextProps.places
+    && prevProps.places.length === nextProps.places.length
+    && prevProps.places.every((place, index) =>
+      place.id === nextProps.places[index].id
+      && place.isFavorite === nextProps.places[index].isFavorite
+    )
 );

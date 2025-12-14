@@ -8,3 +8,4 @@ export const setLoading = createAction<boolean>('SET_LOADING');
 export const setPlaceCards = createAction<IPlaceCard[]>('SET_PLACE_CARDS');
 export const setOfferData = createAction<IOffer | null>('SET_OFFER_DATA');
 export const setNearbyOffers = createAction<IPlaceCard[]>('SET_NEARBY_OFFERS');
+export const setFavoriteStatus = createAction<IOffer>('SET_FAVORITE_STATUS');
