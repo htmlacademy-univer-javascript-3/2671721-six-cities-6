@@ -1,8 +1,9 @@
 import { FC, FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Path } from '../../common/const.ts';
-import { useAppDispatch } from '../../store/hooks.ts';
-import { login } from '../../store/api-actions.ts';
+import { useAppDispatch, useAppSelector } from '../../store/hooks.ts';
+import { login } from '../../store/user/user-api-actions.ts';
+import { getAuthorizationStatus } from '../../store/user/user-selectors.ts';
 
 interface ILoginProps {
 }
@@ -10,6 +11,8 @@ interface ILoginProps {
 export const Login: FC<ILoginProps> = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isAuthenticated = useAppSelector(getAuthorizationStatus);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,6 +23,10 @@ export const Login: FC<ILoginProps> = () => {
       navigate(Path.MAIN);
     });
   };
+
+  if (isAuthenticated) {
+    return <Navigate to={Path.MAIN} state={{ from: location }} replace />;
+  }
 
   return (
     <div className="page page--gray page--login">

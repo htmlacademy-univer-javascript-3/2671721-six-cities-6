@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { IReview } from '../../types/app.ts';
 import { calculateRatingPercent, getDate } from '../../utils.ts';
 
@@ -36,4 +36,14 @@ export const ReviewCard: FC<IReviewCardProps> = ({ user, rating, date, comment})
       <time className="reviews__time" dateTime={date}>{getDate(date)}</time>
     </div>
   </li>
+);
+
+export const MemorizedReviewCard = memo(ReviewCard,
+  (prevProps, nextProps) =>
+    prevProps.rating === nextProps.rating
+    && prevProps.date === nextProps.date
+    && prevProps.comment === nextProps.comment
+    && prevProps.user.name === nextProps.user.name
+    && prevProps.user.isPro === nextProps.user.isPro
+    && prevProps.user.avatarUrl === nextProps.user.avatarUrl
 );

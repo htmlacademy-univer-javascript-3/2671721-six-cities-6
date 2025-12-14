@@ -1,6 +1,6 @@
-import { ChangeEvent, FC, FormEvent, Fragment, useState } from 'react';
+import {ChangeEvent, FC, FormEvent, Fragment, memo, useState} from 'react';
 import { useAppDispatch } from '../../../store/hooks.ts';
-import { postReview } from '../../../store/api-actions.ts';
+import { postReview } from '../../../store/reviews/reviews-api-actions.ts';
 
 interface IReviewFormProps {
   offerId: string;
@@ -79,3 +79,8 @@ export const ReviewForm: FC<IReviewFormProps> = ({ offerId }) => {
     </form>
   );
 };
+
+export const MemorizedReviewForm = memo(ReviewForm,
+  (prevProps, nextProps) =>
+    prevProps.offerId === nextProps.offerId
+);

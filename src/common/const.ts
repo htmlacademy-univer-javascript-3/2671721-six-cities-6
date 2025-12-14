@@ -1,8 +1,6 @@
 import { City, ILocation, SortingType } from './types/app.ts';
 import { Icon } from 'leaflet';
 
-export const CITIES = Object.values(City);
-
 export const LOCATIONS: Record<City, ILocation> = {
   [City.PARIS]: {
     latitude: 48.85661,
@@ -70,3 +68,11 @@ export enum ResponseCode {
   UNAUTHORIZED = 401,
   INTERNAL_SERVER_ERROR = 500,
 }
+
+export enum Reducer {
+  OFFERS = 'offers',
+  USER = 'user',
+  REVIEWS = 'reviews',
+}
+
+export const CITIES = Object.values(City);

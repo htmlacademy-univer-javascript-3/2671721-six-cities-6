@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, memo, useEffect, useRef } from 'react';
 import leaflet, { layerGroup } from 'leaflet';
 import { useMap } from '../../hooks/useMap.tsx';
 import { IPlaceCard } from '../../types/app.ts';
@@ -7,25 +7,27 @@ import {
   defaultCustomIcon,
 } from '../../const.ts';
 import { useAppSelector } from '../../../store/hooks.ts';
+import { getActivePlaceCardId } from '../../../store/offers/offers-selectors.ts';
 
 interface IMapProps {
-  placeCardArray: IPlaceCard[];
+  placeCardList: IPlaceCard[];
+  isMain?: boolean;
 }
 
-export const Map: FC<IMapProps> = ({ placeCardArray}) => {
+export const Map: FC<IMapProps> = ({ placeCardList, isMain = false}) => {
   const mapRef = useRef(null);
   const map = useMap(mapRef);
-  const activePlaceCardId = useAppSelector((state) => state.activePlaceCardId);
+  const activePlaceCardId = useAppSelector(getActivePlaceCardId);
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
-      placeCardArray.forEach((place) => {
+      placeCardList.forEach((place) => {
         leaflet.marker({
           lat: place.location.latitude,
           lng: place.location.longitude,
         }, {
-          icon: place.id === activePlaceCardId ? currentCustomIcon : defaultCustomIcon,
+          icon: isMain && place.id === activePlaceCardId ? currentCustomIcon : defaultCustomIcon,
         }).addTo(map);
       });
 
@@ -33,7 +35,23 @@ export const Map: FC<IMapProps> = ({ placeCardArray}) => {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, placeCardArray, activePlaceCardId]);
+  }, [map, placeCardList, activePlaceCardId, isMain]);
 
-  return <div style={{ height: '100%', width: '100%' }} ref={mapRef}></div>;
+  return isMain ? (
+    <div className="cities__right-section">
+      <section className="cities__map map">
+        <div style={{height: '100%', width: '100%'}} ref={mapRef}></div>
+      </section>
+    </div>
+  ) : (
+    <section className="offer__map map">
+      <div style={{height: '100%', width: '100%'}} ref={mapRef}></div>
+    </section>
+  );
 };
+
+export const MemorizedMap = memo(Map,
+  (prevProps, nextProps) =>
+    prevProps.isMain === nextProps.isMain
+    && prevProps.placeCardList === nextProps.placeCardList
+);

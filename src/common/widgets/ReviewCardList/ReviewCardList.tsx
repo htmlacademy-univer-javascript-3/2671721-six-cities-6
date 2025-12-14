@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { IReview } from '../../types/app.ts';
-import { ReviewCard } from '../../components/ReviewCard/ReviewCard.tsx';
+import { MemorizedReviewCard } from '../../components/ReviewCard/ReviewCard.tsx';
 
 interface IReviewCardListProps {
   reviewCardList: IReview[];
@@ -11,7 +11,7 @@ export const ReviewCardList: FC<IReviewCardListProps> = ({ reviewCardList }) => 
     <h2 className="reviews__title">Reviews &middot;<span className="reviews__amount">{reviewCardList.length}</span></h2>
     <ul className="reviews__list">
       {reviewCardList.map((review) => (
-        <ReviewCard
+        <MemorizedReviewCard
           rating={review.rating}
           comment={review.comment}
           date={review.date}
@@ -21,4 +21,9 @@ export const ReviewCardList: FC<IReviewCardListProps> = ({ reviewCardList }) => 
       ))}
     </ul>
   </>
+);
+
+export const MemorizedReviewCardList = memo(ReviewCardList,
+  (prevProps, nextProps) =>
+    prevProps.reviewCardList === nextProps.reviewCardList
 );

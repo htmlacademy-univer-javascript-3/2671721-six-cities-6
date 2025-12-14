@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Илья Князев](https://up.htmlacademy.ru/univer-js3/6/user/2671721).
-* Наставник: [Антон Ткачук](https://htmlacademy.ru/profile/id2397393).
+* Наставник: [Полина Шнайдер](https://htmlacademy.ru/profile/id1178327).
 
 ---
 
