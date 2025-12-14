@@ -1,16 +1,17 @@
-import { FC, useState } from 'react';
+import { FC, memo, useState } from 'react';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
 import { SortingType } from '../../types/app.ts';
-import { setActiveSortingTypeAction } from '../../../store/action.ts';
 import { SORTING_TYPES } from '../../const.ts';
+import { getActiveSortingType } from '../../../store/offers/offers-selectors.ts';
+import { setActiveSortingTypeAction } from '../../../store/offers/offers-actions.ts';
 
 interface ISortedSelectProps {
 }
 
 export const SortedSelect: FC<ISortedSelectProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const activeSortingType = useAppSelector((state) => state.activeSortingType);
+  const activeSortingType = useAppSelector(getActiveSortingType);
   const dispatch = useAppDispatch();
 
   const handleSetActiveSortingType = (sortingType: SortingType) => {
@@ -20,7 +21,7 @@ export const SortedSelect: FC<ISortedSelectProps> = () => {
 
   return (
     <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
+      <span className="places__sorting-caption">Sort by</span>&nbsp;
       <span
         className="places__sorting-type"
         tabIndex={0}
@@ -58,3 +59,5 @@ export const SortedSelect: FC<ISortedSelectProps> = () => {
     </form>
   );
 };
+
+export const MemorizedSortedSelect = memo(SortedSelect, () => true);

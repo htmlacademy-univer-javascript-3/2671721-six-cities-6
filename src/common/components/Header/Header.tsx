@@ -2,14 +2,18 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { Path } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
-import { logout } from '../../../store/api-actions.ts';
+import {
+  getAuthorizationStatus,
+  getUserData
+} from '../../../store/user/user-selectors.ts';
+import { logout } from '../../../store/user/user-api-actions.ts';
 
 interface IHeaderProps {
 }
 
 export const Header: FC<IHeaderProps> = () => {
-  const isAuthenticated = useAppSelector((state) => state.authorizationStatus);
-  const userData = useAppSelector((state) => state.userData);
+  const isAuthenticated = useAppSelector(getAuthorizationStatus);
+  const userData = useAppSelector(getUserData);
   const dispatch = useAppDispatch();
 
   return (

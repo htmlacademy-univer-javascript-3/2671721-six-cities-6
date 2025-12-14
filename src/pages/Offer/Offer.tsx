@@ -3,36 +3,45 @@ import { useParams } from 'react-router-dom';
 import { Header } from '../../common/components/Header/Header.tsx';
 import { calculateRatingPercent } from '../../common/utils.ts';
 import {
-  ReviewCardList
+  MemorizedReviewCardList
 } from '../../common/widgets/ReviewCardList/ReviewCardList.tsx';
-import { ReviewForm } from '../../common/components/ReviewForm/ReviewForm.tsx';
-import { Map } from '../../common/components/Map/Map.tsx';
+import {
+  MemorizedReviewForm
+} from '../../common/components/ReviewForm/ReviewForm.tsx';
+import { MemorizedMap } from '../../common/components/Map/Map.tsx';
 import { useAppDispatch, useAppSelector } from '../../store/hooks.ts';
 import {
-  PlaceCardList
+  MemorizedPlaceCardList
 } from '../../common/widgets/PlaceCardList/PlaceCardList.tsx';
-import {
-  fetchNearbyOffers,
-  fetchOfferData,
-  fetchReviews
-} from '../../store/api-actions.ts';
 import { NotFound } from '../NotFound/NotFound.tsx';
 import { Spinner } from '../../common/components/Spinner/Spinner.tsx';
+import { getAuthorizationStatus } from '../../store/user/user-selectors.ts';
+import {
+  getIsLoading,
+  getNearbyOffers,
+  getOfferData
+} from '../../store/offers/offers-selectors.ts';
+import { getReviews } from '../../store/reviews/reviews-selectors.ts';
+import {
+  fetchNearbyOffers,
+  fetchOfferData
+} from '../../store/offers/offers-api-actions.ts';
+import { fetchReviews } from '../../store/reviews/reviews-api-actions.ts';
 
 interface IOfferProps {
 }
 
 export const Offer: FC<IOfferProps> = () => {
   const { id } = useParams();
-  const isAuthenticated = useAppSelector((state) => state.authorizationStatus);
-  const isLoading = useAppSelector((state) => state.isLoading);
-  const offerData = useAppSelector((state) => state.offerData);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
-  const reviews = useAppSelector((state) => state.reviews);
+  const isAuthenticated = useAppSelector(getAuthorizationStatus);
+  const isLoading = useAppSelector(getIsLoading);
+  const offerData = useAppSelector(getOfferData);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const reviews = useAppSelector(getReviews);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if(id){
+    if (id){
       dispatch(fetchOfferData(id));
       dispatch(fetchNearbyOffers(id));
       dispatch(fetchReviews(id));
@@ -154,23 +163,21 @@ export const Offer: FC<IOfferProps> = () => {
               </div>
 
               <section className="offer__reviews reviews">
-                {reviews.length && <ReviewCardList reviewCardList={reviews} />}
-                {isAuthenticated && (
-                  <ReviewForm offerId={id!} />
-                )}
+                {reviews.length && <MemorizedReviewCardList reviewCardList={reviews} />}
+                {isAuthenticated && (<MemorizedReviewForm offerId={id!} />)}
               </section>
             </div>
           </div>
-          <section className="offer__map map">
-            <Map placeCardArray={nearbyOffers}/>
-          </section>
+          <MemorizedMap placeCardList={nearbyOffers}/>
         </section>
 
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {nearbyOffers.length && <PlaceCardList placeCardList={nearbyOffers} />}
+              {nearbyOffers.length && (
+                <MemorizedPlaceCardList placeCardList={nearbyOffers} />
+              )}
             </div>
           </section>
         </div>

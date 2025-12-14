@@ -1,26 +1,29 @@
-import { FC } from 'react';
-import { PlaceCard } from '../../components/PlaceCard/PlaceCard.tsx';
+import { FC, memo } from 'react';
+import {
+  MemorizedPlaceCard,
+} from '../../components/PlaceCard/PlaceCard.tsx';
 import { IPlaceCard, PlaceCardType } from '../../types/app.ts';
 
 interface IPlaceCardListProps {
   placeCardList: IPlaceCard[];
+  isMain?: boolean;
 }
 
-export const PlaceCardList: FC<IPlaceCardListProps> = ({ placeCardList }) => (
+export const PlaceCardList: FC<IPlaceCardListProps> = ({ placeCardList, isMain = false }) => (
   <div className="cities__places-list places__list tabs__content">
-    {placeCardList.map((place) => (
-      <PlaceCard
-        id={place.id}
+    {placeCardList.map((placeCard) => (
+      <MemorizedPlaceCard
+        placeCard={placeCard}
         cardType={PlaceCardType.DEFAULT}
-        title={place.title}
-        type={place.type}
-        price={place.price}
-        previewImage={place.previewImage}
-        isPremium={place.isPremium}
-        isFavorite={place.isFavorite}
-        rating={place.rating}
-        key={place.id}
+        isMain={isMain}
+        key={placeCard.id}
       />
     ))}
   </div>
+);
+
+export const MemorizedPlaceCardList = memo(PlaceCardList,
+  (prevProps, nextProps) =>
+    prevProps.placeCardList === nextProps.placeCardList
+    && prevProps.isMain === nextProps.isMain
 );

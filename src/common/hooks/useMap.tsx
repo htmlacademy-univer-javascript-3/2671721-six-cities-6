@@ -3,13 +3,14 @@ import leaflet, { Map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../store/hooks.ts';
 import { LOCATIONS } from '../const.ts';
+import { getActiveCity } from '../../store/offers/offers-selectors.ts';
 
 export function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
-  const activeCity = useAppSelector((state) => state.activeCity);
+  const activeCity = useAppSelector(getActiveCity);
   const location = LOCATIONS[activeCity];
 
   useEffect(() => {

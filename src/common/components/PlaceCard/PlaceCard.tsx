@@ -1,26 +1,19 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { IPlaceCard, PlaceCardType } from '../../types/app.ts';
 import { calculateRatingPercent } from '../../utils.ts';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../../store/hooks.ts';
-import { setActivePlaceCardId } from '../../../store/action.ts';
-import {Path} from '../../const.ts';
+import { Path } from '../../const.ts';
+import { setActivePlaceCardId } from '../../../store/offers/offers-actions.ts';
 
 interface IPlaceCardProps {
+  placeCard: IPlaceCard;
   cardType: PlaceCardType;
-  id: IPlaceCard['id'];
-  title: IPlaceCard['title'];
-  type: IPlaceCard['type'];
-  price: IPlaceCard['price'];
-  isPremium: IPlaceCard['isPremium'];
-  isFavorite: IPlaceCard['isFavorite'];
-  previewImage: IPlaceCard['previewImage'];
-  rating: IPlaceCard['rating'];
+  isMain?: boolean;
 }
 
-export const PlaceCard: FC<IPlaceCardProps> = (props) => {
+export const PlaceCard: FC<IPlaceCardProps> = ({ placeCard, cardType, isMain = false }) => {
   const {
-    cardType,
     id,
     title,
     type,
@@ -29,7 +22,7 @@ export const PlaceCard: FC<IPlaceCardProps> = (props) => {
     previewImage,
     price,
     rating,
-  } = props;
+  } = placeCard;
   const isWide = cardType === PlaceCardType.WIDE;
   const dispatch = useAppDispatch();
 
@@ -44,8 +37,8 @@ export const PlaceCard: FC<IPlaceCardProps> = (props) => {
   return (
     <article
       className={`${cardType}__card place-card`}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
+      onMouseOver={isMain ? handleMouseOver : undefined}
+      onMouseOut={isMain ? handleMouseOut : undefined}
     >
       {isPremium && (
         <div className="place-card__mark">
@@ -95,3 +88,17 @@ export const PlaceCard: FC<IPlaceCardProps> = (props) => {
     </article>
   );
 };
+
+export const MemorizedPlaceCard = memo(PlaceCard,
+  (prevProps, nextProps) =>
+    prevProps.cardType === nextProps.cardType
+    && prevProps.isMain === nextProps.isMain
+    && prevProps.placeCard.id === nextProps.placeCard.id
+    && prevProps.placeCard.title === nextProps.placeCard.title
+    && prevProps.placeCard.isFavorite === nextProps.placeCard.isFavorite
+    && prevProps.placeCard.isPremium === nextProps.placeCard.isPremium
+    && prevProps.placeCard.previewImage === nextProps.placeCard.previewImage
+    && prevProps.placeCard.price === nextProps.placeCard.price
+    && prevProps.placeCard.rating === nextProps.placeCard.rating
+    && prevProps.placeCard.type === nextProps.placeCard.type
+);
