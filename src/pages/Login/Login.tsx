@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { Path } from '../../common/const.ts';
+import { Path } from '../../common/utils/const.ts';
 import { useAppSelector } from '../../store/hooks.ts';
 import { getAuthorizationStatus } from '../../store/user/user-selectors.ts';
 import { Header } from '../../common/components/Header/Header.tsx';

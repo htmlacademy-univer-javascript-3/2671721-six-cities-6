@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Header } from '../../common/components/Header/Header.tsx';
-import { calculateRatingPercent } from '../../common/utils.ts';
+import { calculateRatingPercent } from '../../common/utils/utils.ts';
 import {
   MemorizedReviewCardList
 } from '../../common/widgets/ReviewCardList/ReviewCardList.tsx';

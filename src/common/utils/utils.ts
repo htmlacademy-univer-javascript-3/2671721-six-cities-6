@@ -1,4 +1,4 @@
-import { IGroupedPlaceCard, IPlaceCard, SortingType } from './types/app.ts';
+import { IGroupedPlaceCard, IPlaceCard, SortingType } from '../types/app.ts';
 import { AUTH_TOKEN_KEY_NAME, Path, ResponseCode } from './const.ts';
 
 export const groupPlaceCardsByCity = (places: IPlaceCard[]): IGroupedPlaceCard => (
@@ -25,7 +25,7 @@ export const getDate = (dt: string) => {
 
 export const getSortingFunction = (sortingType: SortingType) => {
   switch (sortingType) {
-    case SortingType.HIGHT_TO_LOW: {
+    case SortingType.HIGH_TO_LOW: {
       return (a: IPlaceCard, b: IPlaceCard) => b.price - a.price;
     }
     case SortingType.LOW_TO_HIGH: {

@@ -1,9 +1,9 @@
 import { FC, memo } from 'react';
 import { IPlaceCard, PlaceCardType } from '../../types/app.ts';
-import { calculateRatingPercent, isPath } from '../../utils.ts';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { calculateRatingPercent } from '../../utils/utils.ts';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
-import { Path } from '../../const.ts';
+import { Path } from '../../utils/const.ts';
 import { setActivePlaceCardId } from '../../../store/offers/offers-actions.ts';
 import { getAuthorizationStatus } from '../../../store/user/user-selectors.ts';
 import {
@@ -30,8 +30,6 @@ export const PlaceCard: FC<IPlaceCardProps> = ({ placeCard, cardType, isMain = f
   const isWide = cardType === PlaceCardType.WIDE;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  const isFavoritePage = isPath(location.pathname) && location.pathname === Path.FAVORITES;
   const isAuthenticated = useAppSelector(getAuthorizationStatus);
 
   const handleMouseOver = () =>{
@@ -50,8 +48,8 @@ export const PlaceCard: FC<IPlaceCardProps> = ({ placeCard, cardType, isMain = f
     const status = isFavorite ? 0 : 1;
     dispatch(changeFavoriteStatus({
       offerId: id,
-      status: status,
-      isFavoritePage }));
+      status: status
+    }));
   };
 
   return (

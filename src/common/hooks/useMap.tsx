@@ -2,7 +2,7 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import leaflet, { Map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../store/hooks.ts';
-import { LOCATIONS } from '../const.ts';
+import { LOCATIONS } from '../utils/const.ts';
 import { getActiveCity } from '../../store/offers/offers-selectors.ts';
 
 export function useMap(

@@ -5,7 +5,7 @@ import { IPlaceCard } from '../../types/app.ts';
 import {
   currentCustomIcon,
   defaultCustomIcon,
-} from '../../const.ts';
+} from '../../utils/const.ts';
 import { useAppSelector } from '../../../store/hooks.ts';
 import { getActivePlaceCardId } from '../../../store/offers/offers-selectors.ts';
 

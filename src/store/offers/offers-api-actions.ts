@@ -1,16 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import {City, IOffer, IPlaceCard, SortingType} from '../../common/types/app.ts';
+import {
+  City,
+  IOffer,
+  IPlaceCard,
+  SortingType,
+  Status
+} from '../../common/types/app.ts';
 import { AppDispatch, AppRootStateType } from '../types.ts';
-import { Path } from '../../common/const.ts';
+import { Path } from '../../common/utils/const.ts';
 import {
   setFavoriteStatus,
   setLoading,
   setNearbyOffers,
   setOfferData,
-  setPlaceCards
+  setPlaceCards,
+  setFavoritePlaceCards
 } from './offers-actions.ts';
-import {getSortingFunction} from '../../common/utils.ts';
+import { getSortingFunction } from '../../common/utils/utils.ts';
 
 export const fetchOffers = createAsyncThunk<
   void,
@@ -48,7 +55,7 @@ export const fetchFavoritesOffers = createAsyncThunk<
   dispatch(setLoading(true));
   try {
     const response = await api.get<IPlaceCard[]>(Path.FAVORITE);
-    dispatch(setPlaceCards(response.data));
+    dispatch(setFavoritePlaceCards(response.data));
   } finally {
     dispatch(setLoading(false));
   }
@@ -87,8 +94,7 @@ export const changeFavoriteStatus = createAsyncThunk<
   void,
   {
     offerId: string;
-    status: 0 | 1;
-    isFavoritePage?: boolean;
+    status: Status;
   },
   {
     dispatch: AppDispatch;
@@ -96,11 +102,9 @@ export const changeFavoriteStatus = createAsyncThunk<
     extra: AxiosInstance;
   }>(
     'CHANGE_FAVORITE_STATUS',
-    async ({ offerId, status, isFavoritePage }, { dispatch, extra: api }) => {
+    async ({ offerId, status }, { dispatch, extra: api }) => {
       const response = await api.post<IOffer>(`${Path.FAVORITE}/${offerId}/${status}`);
       dispatch(setFavoriteStatus(response.data));
-      if (isFavoritePage) {
-        dispatch(fetchFavoritesOffers());
-      }
+      dispatch(fetchFavoritesOffers());
     }
   );

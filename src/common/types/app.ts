@@ -79,6 +79,8 @@ export interface IReview {
 export enum SortingType {
   POPULAR = 'Popular',
   LOW_TO_HIGH = 'Price: low to high',
-  HIGHT_TO_LOW = 'Price: high to low',
+  HIGH_TO_LOW = 'Price: high to low',
   TOP_RATING = 'Top rated first',
 }
+
+export type Status = 0 | 1;

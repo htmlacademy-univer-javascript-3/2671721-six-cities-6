@@ -1,9 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { AuthResponse } from '../../common/types/auth.ts';
 import { AppRootStateType } from '../types.ts';
+import { Reducer } from '../../common/utils/const.ts';
 
-const selectAuthorizationStatus = (state: AppRootStateType): boolean => state.user.authorizationStatus;
-const selectUserData = (state: AppRootStateType): AuthResponse | null => state.user.userData;
+export const selectAuthorizationStatus = (state: Pick<AppRootStateType, Reducer.USER>): boolean => state.user.authorizationStatus;
+export const selectUserData = (state: Pick<AppRootStateType, Reducer.USER>): AuthResponse | null => state.user.userData;
 
 export const getAuthorizationStatus = createSelector(
   [selectAuthorizationStatus],
