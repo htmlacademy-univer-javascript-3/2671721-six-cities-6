@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, AppRootStateType } from '../types.ts';
 import { AxiosInstance } from 'axios';
-import { Path } from '../../common/const.ts';
+import { Path } from '../../common/utils/const.ts';
 import { AuthRequest, AuthResponse } from '../../common/types/auth.ts';
 import { setAuthorizationStatus, setUserData } from './user-actions.ts';
-import { dropToken, saveToken } from '../../common/utils.ts';
+import { dropToken, saveToken } from '../../common/utils/utils.ts';
 
 export const checkAuthorizationStatus = createAsyncThunk<
   void,

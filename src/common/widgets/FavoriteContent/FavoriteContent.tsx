@@ -1,10 +1,10 @@
 import { FC, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
 import {
+  getFavoritePlaceCards,
   getIsLoading,
-  getPlaceCards
 } from '../../../store/offers/offers-selectors.ts';
-import { groupPlaceCardsByCity } from '../../utils.ts';
+import { groupPlaceCardsByCity } from '../../utils/utils.ts';
 import {
   fetchFavoritesOffers
 } from '../../../store/offers/offers-api-actions.ts';
@@ -18,9 +18,9 @@ interface IFavoriteContentProps {
 
 export const FavoriteContent: FC<IFavoriteContentProps> = () => {
   const dispatch = useAppDispatch();
-  const placeCards = useAppSelector(getPlaceCards);
+  const favoritePlaceCards = useAppSelector(getFavoritePlaceCards);
   const isLoading = useAppSelector(getIsLoading);
-  const favoriteLocations = useMemo(() => groupPlaceCardsByCity(placeCards), [placeCards]);
+  const favoriteLocations = useMemo(() => groupPlaceCardsByCity(favoritePlaceCards), [favoritePlaceCards]);
   const favoriteLocationEntries = useMemo(() => Object.entries(favoriteLocations), [favoriteLocations]);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export const FavoriteContent: FC<IFavoriteContentProps> = () => {
   return (
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
-        {placeCards.length ? (
+        {favoritePlaceCards.length ? (
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
 

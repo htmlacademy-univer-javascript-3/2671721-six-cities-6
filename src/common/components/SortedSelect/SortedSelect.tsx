@@ -2,7 +2,7 @@ import { FC, memo, useState } from 'react';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
 import { SortingType } from '../../types/app.ts';
-import { SORTING_TYPES } from '../../const.ts';
+import { SORTING_TYPES } from '../../utils/const.ts';
 import { getActiveSortingType } from '../../../store/offers/offers-selectors.ts';
 import { setActiveSortingTypeAction } from '../../../store/offers/offers-actions.ts';
 

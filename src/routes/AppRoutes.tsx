@@ -8,7 +8,7 @@ import {
 } from '../common/components/ProtectedRoute/ProtectedRoute.tsx';
 import { Favorites } from '../pages/Favorites/Favorites.tsx';
 import { NotFound } from '../pages/NotFound/NotFound.tsx';
-import { Path } from '../common/const.ts';
+import { Path } from '../common/utils/const.ts';
 import { Layout } from '../common/components/Layout/Layout.tsx';
 
 interface IAppRoutesProps {

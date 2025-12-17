@@ -2,9 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, AppRootStateType } from '../types.ts';
 import { AxiosInstance } from 'axios';
 import { IReview } from '../../common/types/app.ts';
-import { isResponseCode } from '../../common/utils.ts';
-import { Path, ResponseCode } from '../../common/const.ts';
-import {setReviews} from './reviews-actions.ts';
+import { isResponseCode } from '../../common/utils/utils.ts';
+import { Path, ResponseCode } from '../../common/utils/const.ts';
+import { setReviews } from './reviews-actions.ts';
 
 export const fetchReviews = createAsyncThunk<
   void,

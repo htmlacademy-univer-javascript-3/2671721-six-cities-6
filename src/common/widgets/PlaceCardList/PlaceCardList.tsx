@@ -4,7 +4,7 @@ import {
 } from '../../components/PlaceCard/PlaceCard.tsx';
 import { IPlaceCard, PlaceCardType } from '../../types/app.ts';
 
-interface IPlaceCardListProps {
+export interface IPlaceCardListProps {
   placeCardList: IPlaceCard[];
   isMain?: boolean;
 }

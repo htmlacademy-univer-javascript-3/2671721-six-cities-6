@@ -2,7 +2,10 @@ import { FC, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../store/hooks.ts';
 import { login } from '../../../store/user/user-api-actions.ts';
-import { Path } from '../../const.ts';
+import { Path } from '../../utils/const.ts';
+import {
+  fetchFavoritesOffers
+} from '../../../store/offers/offers-api-actions.ts';
 
 interface ILoginFormProps {
 }
@@ -17,6 +20,7 @@ export const LoginForm: FC<ILoginFormProps> = () => {
     e.preventDefault();
 
     dispatch(login({email: email, password: password})).then(() => {
+      dispatch(fetchFavoritesOffers);
       navigate(Path.MAIN);
     });
   };

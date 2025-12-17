@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Path } from '../../const.ts';
+import { Path } from '../../utils/const.ts';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
 import {
   getAuthorizationStatus,
   getUserData
 } from '../../../store/user/user-selectors.ts';
 import { logout } from '../../../store/user/user-api-actions.ts';
-import { isPath } from '../../utils.ts';
+import { isPath } from '../../utils/utils.ts';
+import { getFavoritePlaceCards } from '../../../store/offers/offers-selectors.ts';
 
 interface IHeaderProps {
 }
@@ -15,6 +16,7 @@ interface IHeaderProps {
 export const Header: FC<IHeaderProps> = () => {
   const isAuthenticated = useAppSelector(getAuthorizationStatus);
   const userData = useAppSelector(getUserData);
+  const favoritePlaceCards = useAppSelector(getFavoritePlaceCards);
   const dispatch = useAppDispatch();
   const location = useLocation();
   const isLoginPage = isPath(location.pathname) && location.pathname === Path.LOGIN;
@@ -44,7 +46,9 @@ export const Header: FC<IHeaderProps> = () => {
                       <span className="header__user-name user__name">
                         {userData?.email}
                       </span>
-                      <span className="header__favorite-count">3</span>
+                      <span className="header__favorite-count">
+                        {favoritePlaceCards.length}
+                      </span>
                     </Link>
                   </li>
                 )}

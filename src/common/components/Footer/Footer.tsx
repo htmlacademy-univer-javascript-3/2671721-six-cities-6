@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { Path } from '../../const.ts';
+import { Path } from '../../utils/const.ts';
 
 export const Footer: FC = () => (
   <footer className="footer container">

@@ -1,9 +1,9 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { dropToken, getToken, isResponseCode } from './utils.ts';
 import { ResponseCode } from './const.ts';
-import { AuthError } from './types/auth.ts';
-import { useAppDispatch } from '../store/hooks.ts';
-import { setAuthorizationStatus } from '../store/user/user-actions.ts';
+import { AuthError } from '../types/auth.ts';
+import { useAppDispatch } from '../../store/hooks.ts';
+import { setAuthorizationStatus } from '../../store/user/user-actions.ts';
 
 export const BASE_URL = 'https://14.design.htmlacademy.pro/six-cities';
 export const TIMEOUT = 5000;

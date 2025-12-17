@@ -9,6 +9,7 @@ import {
   setActiveCityAction,
   setActivePlaceCardId,
   setActiveSortingTypeAction,
+  setFavoritePlaceCards,
   setFavoriteStatus,
   setLoading,
   setNearbyOffers,
@@ -19,6 +20,7 @@ import {
 export interface OffersState {
   activeCity: City;
   placeCards: IPlaceCard[];
+  favoritePlaceCards: IPlaceCard[];
   activeSortingType: SortingType;
   isLoading: boolean;
   activePlaceCardId: IPlaceCard['id'] | null;
@@ -29,6 +31,7 @@ export interface OffersState {
 
 const initialState: OffersState = {
   activeCity: City.PARIS,
+  favoritePlaceCards: [],
   placeCards: [],
   activeSortingType: SortingType.POPULAR,
   isLoading: false,
@@ -54,6 +57,9 @@ export const offersReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setPlaceCards, (state, action) => {
       state.placeCards = action.payload;
+    })
+    .addCase(setFavoritePlaceCards, (state, action) => {
+      state.favoritePlaceCards = action.payload;
     })
     .addCase(setOfferData, (state, action) => {
       state.offerData = action.payload;

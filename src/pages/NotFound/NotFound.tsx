@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { Path } from '../../common/const.ts';
+import { Path } from '../../common/utils/const.ts';
 
 export const NotFound: FC = () => (
   <div>

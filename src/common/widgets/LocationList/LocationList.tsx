@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { MemorizedLocation } from '../../components/Location/Location.tsx';
 import { useAppSelector } from '../../../store/hooks.ts';
 import { getActiveCity } from '../../../store/offers/offers-selectors.ts';
-import { CITIES } from '../../const.ts';
+import { CITIES } from '../../utils/const.ts';
 
 interface ILocationListProps {
 }
