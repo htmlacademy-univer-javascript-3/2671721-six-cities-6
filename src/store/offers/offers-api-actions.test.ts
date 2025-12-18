@@ -8,7 +8,7 @@ import {
   fetchNearbyOffers,
   changeFavoriteStatus
 } from './offers-api-actions';
-import { City, SortingType, Status } from '../../common/types/app.ts';
+import { City, SortingType, Status } from '../../common/types/app';
 import {
   setLoading,
   setPlaceCards,
@@ -16,15 +16,15 @@ import {
   setNearbyOffers,
   setFavoriteStatus,
   setFavoritePlaceCards
-} from './offers-actions.ts';
-import { createAPI } from '../../common/utils/api.ts';
-import { AppDispatch, AppRootStateType } from '../types.ts';
+} from './offers-actions';
+import { createAPI } from '../../common/utils/api';
+import { AppDispatch, AppRootStateType } from '../types';
 import {
   extractActionsTypes,
   mockOffer,
   mockPlaceCard
-} from '../../common/utils/mocks.ts';
-import { Path } from '../../common/utils/const.ts';
+} from '../../common/utils/mocks';
+import { Path } from '../../common/utils/const';
 import { Action } from '@reduxjs/toolkit';
 
 describe('Offers Async actions', () => {

@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { AuthResponse } from '../../common/types/auth.ts';
-import { setAuthorizationStatus, setUserData } from './user-actions.ts';
+import { AuthResponse } from '../../common/types/auth';
+import { setAuthorizationStatus, setUserData } from './user-actions';
 
 export interface UserState {
   authorizationStatus: boolean;

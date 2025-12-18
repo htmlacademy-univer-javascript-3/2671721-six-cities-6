@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { City, IOffer, IPlaceCard, SortingType } from '../../common/types/app.ts';
-import { AppRootStateType } from '../types.ts';
-import { Reducer } from '../../common/utils/const.ts';
+import { City, IOffer, IPlaceCard, SortingType } from '../../common/types/app';
+import { AppRootStateType } from '../types';
+import { Reducer } from '../../common/utils/const';
 
 export const selectActiveCity = (state: Pick<AppRootStateType, Reducer.OFFERS>): City => state.offers.activeCity;
 export const selectPlaceCards = (state: Pick<AppRootStateType, Reducer.OFFERS>): IPlaceCard[] => state.offers.placeCards;

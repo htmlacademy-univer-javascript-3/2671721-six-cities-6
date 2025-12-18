@@ -1,6 +1,6 @@
-import { IReview } from '../../common/types/app.ts';
+import { IReview } from '../../common/types/app';
 import { createReducer } from '@reduxjs/toolkit';
-import { setReviews } from './reviews-actions.ts';
+import { setReviews } from './reviews-actions';
 
 export interface ReviewsState {
   reviews: IReview[];

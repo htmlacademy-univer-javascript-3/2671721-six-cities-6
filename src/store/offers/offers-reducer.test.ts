@@ -1,4 +1,4 @@
-import { City, SortingType } from '../../common/types/app.ts';
+import { City, SortingType } from '../../common/types/app';
 import {
   setActiveCityAction,
   setActivePlaceCardId,
@@ -8,9 +8,9 @@ import {
   setNearbyOffers,
   setOfferData,
   setPlaceCards
-} from './offers-actions.ts';
-import { offersReducer, OffersState } from './offers-reducer.ts';
-import { mockOffer, mockPlaceCard } from '../../common/utils/mocks.ts';
+} from './offers-actions';
+import { offersReducer, OffersState } from './offers-reducer';
+import { mockOffer, mockPlaceCard } from '../../common/utils/mocks';
 
 describe('Offers Reducer', () => {
   const initialState: OffersState = {

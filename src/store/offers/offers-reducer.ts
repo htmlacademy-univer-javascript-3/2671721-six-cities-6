@@ -3,7 +3,7 @@ import {
   IOffer,
   IPlaceCard,
   SortingType
-} from '../../common/types/app.ts';
+} from '../../common/types/app';
 import { createReducer } from '@reduxjs/toolkit';
 import {
   setActiveCityAction,
@@ -15,7 +15,7 @@ import {
   setNearbyOffers,
   setOfferData,
   setPlaceCards
-} from './offers-actions.ts';
+} from './offers-actions';
 
 export interface OffersState {
   activeCity: City;

@@ -1,6 +1,6 @@
-import { setReviews } from './reviews-actions.ts';
-import { reviewsReducer, ReviewsState } from './reviews-reducer.ts';
-import { mockReview } from '../../common/utils/mocks.ts';
+import { setReviews } from './reviews-actions';
+import { reviewsReducer, ReviewsState } from './reviews-reducer';
+import { mockReview } from '../../common/utils/mocks';
 
 describe('Reviews Reducer', () => {
   const initialState: ReviewsState = {
