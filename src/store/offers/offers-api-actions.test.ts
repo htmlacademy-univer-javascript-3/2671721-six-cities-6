@@ -52,8 +52,8 @@ describe('Offers Async actions', () => {
 
   describe('fetchOffers', () => {
     it('should filter offers by city and sort them', async () => {
-      const parisCard = {...mockPlaceCard, city: {name: City.PARIS}};
-      const cologneCard = {...mockPlaceCard, city: {name: City.COLOGNE}};
+      const parisCard = {...mockPlaceCard, city: { ...mockPlaceCard.city, name: City.PARIS}};
+      const cologneCard = {...mockPlaceCard, city: { ...mockPlaceCard.city, name: City.COLOGNE}};
       const mockPlaceCards = [parisCard, cologneCard];
       const params = {
         city: City.PARIS,
