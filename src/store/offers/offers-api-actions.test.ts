@@ -51,24 +51,6 @@ describe('Offers Async actions', () => {
   });
 
   describe('fetchOffers', () => {
-    it('should dispatch "setLoading(true)", "setPlaceCards", "setLoading(false)" when server response 200', async () => {
-      const mockPlaceCards = [mockPlaceCard];
-      const params = {city: City.PARIS, activeSortingType: SortingType.POPULAR};
-
-      mockAxiosAdapter.onGet(Path.OFFERS).reply(200, mockPlaceCards);
-
-      await store.dispatch(fetchOffers(params));
-      const actions = extractActionsTypes(store.getActions());
-
-      expect(actions).toEqual([
-        fetchOffers.pending.type,
-        setLoading.type,
-        setPlaceCards.type,
-        setLoading.type,
-        fetchOffers.fulfilled.type,
-      ]);
-    });
-
     it('should filter offers by city and sort them', async () => {
       const parisCard = {...mockPlaceCard, city: {name: City.PARIS}};
       const cologneCard = {...mockPlaceCard, city: {name: City.COLOGNE}};
@@ -85,9 +67,27 @@ describe('Offers Async actions', () => {
       const emittedActions = store.getActions();
       const setPlaceCardsAction = emittedActions.find((action) => action.type === setPlaceCards.type);
 
-      expect(setPlaceCardsAction).toBeDefined();
       expect((setPlaceCardsAction as ReturnType<typeof setPlaceCards>)?.payload).toHaveLength(1);
       expect((setPlaceCardsAction as ReturnType<typeof setPlaceCards>)?.payload[0].city.name).toBe(City.PARIS);
+    });
+
+    it('should dispatch "setLoading(true)", "setLoading(false)" and reject when server response 400', async () => {
+      const params = {
+        city: City.PARIS,
+        activeSortingType: SortingType.HIGH_TO_LOW
+      };
+
+      mockAxiosAdapter.onGet(Path.OFFERS).reply(400);
+
+      await store.dispatch(fetchOffers(params));
+      const actions = extractActionsTypes(store.getActions());
+
+      expect(actions).toEqual([
+        fetchOffers.pending.type,
+        setLoading.type,
+        setLoading.type,
+        fetchOffers.rejected.type,
+      ]);
     });
   });
 
