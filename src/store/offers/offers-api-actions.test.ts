@@ -11,7 +11,6 @@ import {
 import { City, SortingType, Status } from '../../common/types/app';
 import {
   setLoading,
-  setPlaceCards,
   setOfferData,
   setNearbyOffers,
   setFavoriteStatus,
@@ -50,27 +49,52 @@ describe('Offers Async actions', () => {
     });
   });
 
-  describe('fetchOffers', () => {
-    it('should filter offers by city and sort them', async () => {
-      const parisCard = {...mockPlaceCard, city: { ...mockPlaceCard.city, name: City.PARIS}};
-      const cologneCard = {...mockPlaceCard, city: { ...mockPlaceCard.city, name: City.COLOGNE}};
-      const mockPlaceCards = [parisCard, cologneCard];
-      const params = {
-        city: City.PARIS,
-        activeSortingType: SortingType.HIGH_TO_LOW
-      };
+  describe('fetchOfferData', () => {
+    const offerId = 'test-offer-id';
 
-      mockAxiosAdapter.onGet(Path.OFFERS).reply(200, mockPlaceCards);
+    it('should dispatch "setLoading(true)", "setOfferData", "setLoading(false)" when server response 200', async () => {
+      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}`).reply(200, mockOffer);
 
-      await store.dispatch(fetchOffers(params));
+      await store.dispatch(fetchOfferData(offerId));
+      const actions = extractActionsTypes(store.getActions());
 
-      const emittedActions = store.getActions();
-      const setPlaceCardsAction = emittedActions.find((action) => action.type === setPlaceCards.type);
-
-      expect((setPlaceCardsAction as ReturnType<typeof setPlaceCards>)?.payload).toHaveLength(1);
-      expect((setPlaceCardsAction as ReturnType<typeof setPlaceCards>)?.payload[0].city.name).toBe(City.PARIS);
+      expect(actions).toEqual([
+        fetchOfferData.pending.type,
+        setLoading.type,
+        setOfferData.type,
+        setLoading.type,
+        fetchOfferData.fulfilled.type,
+      ]);
     });
 
+    it('should dispatch correct offer data', async () => {
+      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}`).reply(200, mockOffer);
+
+      await store.dispatch(fetchOfferData(offerId));
+
+      const emittedActions = store.getActions();
+      const setOfferDataAction = emittedActions.find((action) => action.type === setOfferData.type);
+
+      expect(setOfferDataAction).toBeDefined();
+      expect((setOfferDataAction as ReturnType<typeof setOfferData>)?.payload).toEqual(mockOffer);
+    });
+
+    it('should dispatch "setLoading(true)", "setLoading(false)" and reject when server response 404', async () => {
+      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}`).reply(404);
+
+      await store.dispatch(fetchOfferData(offerId));
+      const actions = extractActionsTypes(store.getActions());
+
+      expect(actions).toEqual([
+        fetchOfferData.pending.type,
+        setLoading.type,
+        setLoading.type,
+        fetchOfferData.rejected.type,
+      ]);
+    });
+  });
+
+  describe('fetchOffers', () => {
     it('should dispatch "setLoading(true)", "setLoading(false)" and reject when server response 400', async () => {
       const params = {
         city: City.PARIS,
@@ -119,51 +143,6 @@ describe('Offers Async actions', () => {
         setLoading.type,
         setLoading.type,
         fetchFavoritesOffers.rejected.type,
-      ]);
-    });
-  });
-
-  describe('fetchOfferData', () => {
-    const offerId = 'test-offer-id';
-
-    it('should dispatch "setLoading(true)", "setOfferData", "setLoading(false)" when server response 200', async () => {
-      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}`).reply(200, mockOffer);
-
-      await store.dispatch(fetchOfferData(offerId));
-      const actions = extractActionsTypes(store.getActions());
-
-      expect(actions).toEqual([
-        fetchOfferData.pending.type,
-        setLoading.type,
-        setOfferData.type,
-        setLoading.type,
-        fetchOfferData.fulfilled.type,
-      ]);
-    });
-
-    it('should dispatch correct offer data', async () => {
-      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}`).reply(200, mockOffer);
-
-      await store.dispatch(fetchOfferData(offerId));
-
-      const emittedActions = store.getActions();
-      const setOfferDataAction = emittedActions.find((action) => action.type === setOfferData.type);
-
-      expect(setOfferDataAction).toBeDefined();
-      expect((setOfferDataAction as ReturnType<typeof setOfferData>)?.payload).toEqual(mockOffer);
-    });
-
-    it('should dispatch "setLoading(true)", "setLoading(false)" and reject when server response 404', async () => {
-      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}`).reply(404);
-
-      await store.dispatch(fetchOfferData(offerId));
-      const actions = extractActionsTypes(store.getActions());
-
-      expect(actions).toEqual([
-        fetchOfferData.pending.type,
-        setLoading.type,
-        setLoading.type,
-        fetchOfferData.rejected.type,
       ]);
     });
   });
