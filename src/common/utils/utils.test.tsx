@@ -11,7 +11,7 @@ import {
   isResponseCode,
   isPath
 } from './utils';
-import { mockPlaceCard } from './mocks.ts';
+import { mockPlaceCard } from './mocks';
 
 describe('Utility Functions', () => {
   describe('groupPlaceCardsByCity', () => {

@@ -1,5 +1,5 @@
-import { City, SortingType } from '../../common/types/app.ts';
-import { OffersState } from './offers-reducer.ts';
+import { City, SortingType } from '../../common/types/app';
+import { OffersState } from './offers-reducer';
 import {
   getActiveCity,
   getActiveSortingType,
@@ -20,9 +20,9 @@ import {
   selectNearbyOffers,
   selectFavoritePlaceCards,
   getFavoritePlaceCards
-} from './offers-selectors.ts';
-import { mockOffer, mockPlaceCard } from '../../common/utils/mocks.ts';
-import { Reducer } from '../../common/utils/const.ts';
+} from './offers-selectors';
+import { mockOffer, mockPlaceCard } from '../../common/utils/mocks';
+import { Reducer } from '../../common/utils/const';
 
 describe('Offers selectors', () => {
   const mockState: OffersState = {

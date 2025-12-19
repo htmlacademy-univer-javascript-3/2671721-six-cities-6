@@ -2,11 +2,11 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { fetchReviews, postReview } from './reviews-api-actions';
-import { Path } from '../../common/utils/const.ts';
-import { setReviews } from './reviews-actions.ts';
-import { createAPI } from '../../common/utils/api.ts';
-import { AppDispatch, AppRootStateType } from '../types.ts';
-import { extractActionsTypes, mockReview } from '../../common/utils/mocks.ts';
+import { Path } from '../../common/utils/const';
+import { setReviews } from './reviews-actions';
+import { createAPI } from '../../common/utils/api';
+import { AppDispatch, AppRootStateType } from '../types';
+import { extractActionsTypes, mockReview } from '../../common/utils/mocks';
 import { Action } from '@reduxjs/toolkit';
 
 describe('Reviews Async actions', () => {

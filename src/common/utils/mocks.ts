@@ -1,8 +1,8 @@
-import { City, IOffer, IPlaceCard, IReview, SortingType } from '../types/app.ts';
+import { City, IOffer, IPlaceCard, IReview, SortingType } from '../types/app';
 import { Action } from '@reduxjs/toolkit';
-import { AuthResponse } from '../types/auth.ts';
-import { AppRootStateType } from '../../store/types.ts';
-import { Reducer } from './const.ts';
+import { AuthResponse } from '../types/auth';
+import { AppRootStateType } from '../../store/types';
+import { Reducer } from './const';
 
 export const mockPlaceCard: IPlaceCard = {
   id: 'uuid-0',

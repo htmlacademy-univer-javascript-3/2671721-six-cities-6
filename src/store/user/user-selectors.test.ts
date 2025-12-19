@@ -1,7 +1,12 @@
-import { UserState } from './user-reducer.ts';
-import { selectAuthorizationStatus, selectUserData, getAuthorizationStatus, getUserData } from './user-selectors.ts';
-import { mockAuthResponse } from '../../common/utils/mocks.ts';
-import { Reducer } from '../../common/utils/const.ts';
+import { UserState } from './user-reducer';
+import {
+  selectAuthorizationStatus,
+  selectUserData,
+  getAuthorizationStatus,
+  getUserData
+} from './user-selectors';
+import { mockAuthResponse } from '../../common/utils/mocks';
+import { Reducer } from '../../common/utils/const';
 
 describe('User selectors', () => {
   const mockState: UserState = {

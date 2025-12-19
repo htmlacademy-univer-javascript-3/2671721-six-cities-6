@@ -1,7 +1,7 @@
-import { ReviewsState } from './reviews-reducer.ts';
-import { selectReviews, getReviews } from './reviews-selectors.ts';
-import { mockReview } from '../../common/utils/mocks.ts';
-import { Reducer } from '../../common/utils/const.ts';
+import { ReviewsState } from './reviews-reducer';
+import { selectReviews, getReviews } from './reviews-selectors';
+import { mockReview } from '../../common/utils/mocks';
+import { Reducer } from '../../common/utils/const';
 
 describe('Reviews selectors', () => {
   const mockState: ReviewsState = {

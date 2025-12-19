@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { City, IOffer, IPlaceCard, SortingType } from '../../common/types/app.ts';
+import { City, IOffer, IPlaceCard, SortingType } from '../../common/types/app';
 
 export const setActiveCityAction = createAction<City>('SET_ACTIVE_CITY');
 export const setActiveSortingTypeAction = createAction<SortingType>('SET_ACTIVE_SORTING_TYPE');

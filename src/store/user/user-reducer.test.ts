@@ -1,6 +1,6 @@
-import { setAuthorizationStatus, setUserData } from './user-actions.ts';
-import { userReducer, UserState } from './user-reducer.ts';
-import { mockAuthResponse } from '../../common/utils/mocks.ts';
+import { setAuthorizationStatus, setUserData } from './user-actions';
+import { userReducer, UserState } from './user-reducer';
+import { mockAuthResponse } from '../../common/utils/mocks';
 
 describe('User Reducer', () => {
   const initialState: UserState = {

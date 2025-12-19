@@ -1,4 +1,4 @@
-import { City, ILocation, SortingType } from '../types/app.ts';
+import { City, ILocation, SortingType } from '../types/app';
 import { Icon } from 'leaflet';
 
 export const LOCATIONS: Record<City, ILocation> = {

@@ -6,9 +6,9 @@ import {
   IPlaceCard,
   SortingType,
   Status
-} from '../../common/types/app.ts';
-import { AppDispatch, AppRootStateType } from '../types.ts';
-import { Path } from '../../common/utils/const.ts';
+} from '../../common/types/app';
+import { AppDispatch, AppRootStateType } from '../types';
+import { Path } from '../../common/utils/const';
 import {
   setFavoriteStatus,
   setLoading,
@@ -16,8 +16,8 @@ import {
   setOfferData,
   setPlaceCards,
   setFavoritePlaceCards
-} from './offers-actions.ts';
-import { getSortingFunction } from '../../common/utils/utils.ts';
+} from './offers-actions';
+import { getSortingFunction } from '../../common/utils/utils';
 
 export const fetchOffers = createAsyncThunk<
   void,
@@ -102,9 +102,13 @@ export const changeFavoriteStatus = createAsyncThunk<
     extra: AxiosInstance;
   }>(
     'CHANGE_FAVORITE_STATUS',
-    async ({ offerId, status }, { dispatch, extra: api }) => {
+    async ({ offerId, status }, { dispatch, extra: api, getState }) => {
       const response = await api.post<IOffer>(`${Path.FAVORITE}/${offerId}/${status}`);
       dispatch(setFavoriteStatus(response.data));
       dispatch(fetchFavoritesOffers());
+
+      if (getState().offers.offerData?.id === offerId) {
+        dispatch(fetchOfferData(offerId));
+      }
     }
   );

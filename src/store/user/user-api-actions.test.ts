@@ -2,17 +2,17 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { checkAuthorizationStatus, login, logout } from './user-api-actions';
-import { Path } from '../../common/utils/const.ts';
-import { setAuthorizationStatus, setUserData } from './user-actions.ts';
-import * as tokenUtils from '../../common/utils/utils.ts';
-import { createAPI } from '../../common/utils/api.ts';
-import { AppDispatch, AppRootStateType } from '../types.ts';
+import { Path } from '../../common/utils/const';
+import { setAuthorizationStatus, setUserData } from './user-actions';
+import * as tokenUtils from '../../common/utils/utils';
+import { createAPI } from '../../common/utils/api';
+import { AppDispatch, AppRootStateType } from '../types';
 import { Action } from '@reduxjs/toolkit';
 import {
   extractActionsTypes,
   mockAuthRequest,
   mockAuthResponse
-} from '../../common/utils/mocks.ts';
+} from '../../common/utils/mocks';
 
 describe('User Async actions', () => {
   const axios = createAPI();
