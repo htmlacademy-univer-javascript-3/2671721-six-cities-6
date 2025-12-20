@@ -3,17 +3,19 @@ import {
   IOffer,
   IPlaceCard,
   SortingType
-} from '../../common/types/app';
+} from '../../types/app';
 import { createReducer } from '@reduxjs/toolkit';
 import {
-  setActiveCityAction,
+  setActiveCity,
   setActivePlaceCardId,
   setActiveSortingTypeAction,
   setFavoritePlaceCards,
   setFavoriteStatus,
+  setFavoriteStatusError,
   setLoading,
   setNearbyOffers,
   setOfferData,
+  setOfferError,
   setPlaceCards
 } from './offers-actions';
 
@@ -23,6 +25,8 @@ export interface OffersState {
   favoritePlaceCards: IPlaceCard[];
   activeSortingType: SortingType;
   isLoading: boolean;
+  isError: boolean;
+  isFavoriteStatusError: boolean;
   activePlaceCardId: IPlaceCard['id'] | null;
   offerId: string | null;
   offerData: IOffer | null;
@@ -30,11 +34,13 @@ export interface OffersState {
 }
 
 const initialState: OffersState = {
-  activeCity: City.PARIS,
+  activeCity: City.Paris,
   favoritePlaceCards: [],
   placeCards: [],
-  activeSortingType: SortingType.POPULAR,
+  activeSortingType: SortingType.Popular,
   isLoading: false,
+  isError: false,
+  isFavoriteStatusError: false,
   activePlaceCardId: null,
   offerId: null,
   offerData: null,
@@ -43,7 +49,7 @@ const initialState: OffersState = {
 
 export const offersReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(setActiveCityAction, (state, action) => {
+    .addCase(setActiveCity, (state, action) => {
       state.activeCity = action.payload;
     })
     .addCase(setActiveSortingTypeAction, (state, action) => {
@@ -54,6 +60,12 @@ export const offersReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setLoading, (state, action) => {
       state.isLoading = action.payload;
+    })
+    .addCase(setOfferError, (state, action) => {
+      state.isError = action.payload;
+    })
+    .addCase(setFavoriteStatusError, (state, action) => {
+      state.isFavoriteStatusError = action.payload;
     })
     .addCase(setPlaceCards, (state, action) => {
       state.placeCards = action.payload;

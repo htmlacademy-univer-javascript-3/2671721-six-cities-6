@@ -1,22 +1,27 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Header } from '../../common/components/header/header';
-import { calculateRatingPercent } from '../../common/utils/utils';
+import { Header } from '../../components/header/header';
+import {
+  calculateRatingPercent,
+  convertOfferToPlaceCard
+} from '../../utils/utils';
 import {
   MemorizedReviewCardList
-} from '../../common/widgets/review-card-list/review-card-list';
+} from '../../components/review-card-list/review-card-list';
 import {
   MemorizedReviewForm
-} from '../../common/components/review-form/review-form';
-import { MemorizedMap } from '../../common/components/map/map';
+} from '../../components/review-form/review-form';
+import { MemorizedMap } from '../../components/map/map';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
 import {
   MemorizedPlaceCardList
-} from '../../common/widgets/place-card-list/place-card-list';
+} from '../../components/place-card-list/place-card-list';
 import { NotFound } from '../not-found/not-found';
-import { Spinner } from '../../common/components/spinner/spinner';
+import { Spinner } from '../../components/spinner/spinner';
 import { getAuthorizationStatus } from '../../store/user/user-selectors';
 import {
+  getIsError,
+  getIsFavoriteStatusError,
   getIsLoading,
   getNearbyOffers,
   getOfferData
@@ -28,7 +33,14 @@ import {
   fetchOfferData
 } from '../../store/offers/offers-api-actions';
 import { fetchReviews } from '../../store/reviews/reviews-api-actions';
-import { Path } from '../../common/utils/const';
+import { Path } from '../../utils/const';
+import {
+  setActivePlaceCardId,
+  setFavoriteStatusError,
+  setNearbyOffers,
+  setOfferData
+} from '../../store/offers/offers-actions';
+import { setReviews } from '../../store/reviews/reviews-actions';
 
 interface IOfferProps {
 }
@@ -38,22 +50,44 @@ export const Offer: FC<IOfferProps> = () => {
   const navigate = useNavigate();
   const isAuthenticated = useAppSelector(getAuthorizationStatus);
   const isLoading = useAppSelector(getIsLoading);
+  const isError = useAppSelector(getIsError);
+  const isFavoriteStatusError = useAppSelector(getIsFavoriteStatusError);
   const offerData = useAppSelector(getOfferData);
   const nearbyOffers = useAppSelector(getNearbyOffers);
   const reviews = useAppSelector(getReviews);
   const dispatch = useAppDispatch();
 
+  const sortedReviews = useMemo(
+    () => {
+      if (reviews.length) {
+        return [...reviews]
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+          .slice(0, 10);
+      }
+      return [];
+    }, [reviews]
+  );
+
   useEffect(() => {
     if (id){
+      dispatch(setActivePlaceCardId(id));
       dispatch(fetchOfferData(id));
       dispatch(fetchNearbyOffers(id));
       dispatch(fetchReviews(id));
     }
+
+    return () => {
+      dispatch(setActivePlaceCardId(null));
+      dispatch(setOfferData(null));
+      dispatch(setNearbyOffers([]));
+      dispatch(setReviews([]));
+      dispatch(setFavoriteStatusError(false));
+    };
   }, [dispatch, id]);
 
   const handleChangeFavoriteStatus = (isFavorite: boolean) => {
     if (!isAuthenticated) {
-      navigate(Path.LOGIN);
+      navigate(Path.Login);
     } else if (id) {
       const status = isFavorite ? 0 : 1;
       dispatch(changeFavoriteStatus({
@@ -111,6 +145,9 @@ export const Offer: FC<IOfferProps> = () => {
                 <h1 className="offer__name">
                   {title}
                 </h1>
+                {isFavoriteStatusError && (
+                  <p>Error change favorite status!</p>
+                )}
                 <button
                   onClick={() => handleChangeFavoriteStatus(offerData.isFavorite)}
                   className={`offer__bookmark-button button ${offerData.isFavorite && 'offer__bookmark-button--active'}`}
@@ -182,18 +219,24 @@ export const Offer: FC<IOfferProps> = () => {
               </div>
 
               <section className="offer__reviews reviews">
-                {reviews.length && <MemorizedReviewCardList reviewCardList={reviews} />}
+                {sortedReviews.length && <MemorizedReviewCardList reviewCardList={sortedReviews} />}
                 {isAuthenticated && (<MemorizedReviewForm offerId={id!} />)}
               </section>
             </div>
           </div>
-          <MemorizedMap placeCardList={nearbyOffers}/>
+          <MemorizedMap placeCardList={[...nearbyOffers, convertOfferToPlaceCard(offerData)]}/>
         </section>
 
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
+              {isFavoriteStatusError && (
+                <p>Error change favorite status!</p>
+              )}
+              {isError && (
+                <p>Error retrieving list of offers!</p>
+              )}
               {nearbyOffers.length && (
                 <MemorizedPlaceCardList placeCardList={nearbyOffers} />
               )}

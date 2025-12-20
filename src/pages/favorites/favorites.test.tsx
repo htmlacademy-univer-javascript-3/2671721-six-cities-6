@@ -1,15 +1,15 @@
 import { render } from '@testing-library/react';
 import { Favorites } from './favorites';
 
-vi.mock('../../common/components/header/header', () => ({
+vi.mock('../../components/header/header', () => ({
   Header: () => <div data-testid="mock-header">Header Component</div>
 }));
 
-vi.mock('../../common/components/footer/footer', () => ({
+vi.mock('../../components/footer/footer', () => ({
   Footer: () => <div data-testid="mock-footer">Footer Component</div>
 }));
 
-vi.mock('../../common/widgets/favorite-content/favorite-content', () => ({
+vi.mock('../../components/favorite-content/favorite-content', () => ({
   FavoriteContent: () => <div data-testid="mock-favorite-content">FavoriteContent Component</div>
 }));
 

@@ -1,15 +1,11 @@
 import { setReviews } from './reviews-actions';
-import { reviewsReducer, ReviewsState } from './reviews-reducer';
-import { mockReview } from '../../common/utils/mocks';
+import { reviewsReducer } from './reviews-reducer';
+import { mockInitialState, mockReview } from '../../utils/mocks';
 
 describe('Reviews Reducer', () => {
-  const initialState: ReviewsState = {
-    reviews: [],
-  };
-
   it('should return initial state with empty action', () => {
     const emptyAction = { type: '' };
-    const expectedState = initialState;
+    const expectedState = mockInitialState.reviews;
 
     const result = reviewsReducer(expectedState, emptyAction);
 
@@ -18,7 +14,7 @@ describe('Reviews Reducer', () => {
 
   it('should return default initial state with empty action', () => {
     const emptyAction = { type: '' };
-    const expectedState = initialState;
+    const expectedState = { ...mockInitialState.reviews, reviews: [] };
 
     const result = reviewsReducer(undefined, emptyAction);
 
@@ -27,9 +23,9 @@ describe('Reviews Reducer', () => {
 
   it('should set reviews with "setReviews" action', () => {
     const reviews = [mockReview];
-    const expectedState = { ...initialState, reviews };
+    const expectedState = { ...mockInitialState.reviews, reviews };
 
-    const result = reviewsReducer(initialState, setReviews(reviews));
+    const result = reviewsReducer(mockInitialState.reviews, setReviews(reviews));
 
     expect(result).toEqual(expectedState);
   });

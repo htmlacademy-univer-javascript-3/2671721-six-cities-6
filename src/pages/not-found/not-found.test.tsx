@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { NotFound } from './not-found';
-import { Path } from '../../common/utils/const';
+import { Path } from '../../utils/const';
 
 describe('NotFound Component', () => {
   it('should render 404 message and link to main page', () => {
@@ -24,7 +24,7 @@ describe('NotFound Component', () => {
 
     const link = screen.getByRole('link', { name: /go to main page/i });
     expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', Path.MAIN);
+    expect(link).toHaveAttribute('href', Path.Main);
     expect(link.tagName).toBe('A');
   });
 

@@ -1,33 +1,22 @@
-import { City, SortingType } from '../../common/types/app';
+import { City, SortingType } from '../../types/app';
 import {
-  setActiveCityAction,
+  setActiveCity,
   setActivePlaceCardId,
-  setActiveSortingTypeAction, setFavoritePlaceCards,
-  setFavoriteStatus,
+  setActiveSortingTypeAction,
+  setFavoritePlaceCards,
+  setFavoriteStatus, setFavoriteStatusError,
   setLoading,
   setNearbyOffers,
-  setOfferData,
+  setOfferData, setOfferError,
   setPlaceCards
 } from './offers-actions';
-import { offersReducer, OffersState } from './offers-reducer';
-import { mockOffer, mockPlaceCard } from '../../common/utils/mocks';
+import { offersReducer } from './offers-reducer';
+import { mockInitialState, mockOffer, mockPlaceCard } from '../../utils/mocks';
 
 describe('Offers Reducer', () => {
-  const initialState: OffersState = {
-    activeCity: City.PARIS,
-    placeCards: [mockPlaceCard],
-    favoritePlaceCards: [mockPlaceCard],
-    activeSortingType: SortingType.POPULAR,
-    isLoading: false,
-    activePlaceCardId: null,
-    offerId: null,
-    offerData: null,
-    nearbyOffers: [],
-  };
-
   it('should return initial state with empty action', () => {
     const emptyAction = { type: '' };
-    const expectedState = initialState;
+    const expectedState = mockInitialState.offers;
 
     const result = offersReducer(expectedState, emptyAction);
 
@@ -37,7 +26,7 @@ describe('Offers Reducer', () => {
   it('should return default initial state with empty action', () => {
     const emptyAction = { type: '' };
     const expectedState = {
-      ...initialState,
+      ...mockInitialState.offers,
       placeCards: [],
       favoritePlaceCards: []
     };
@@ -47,74 +36,92 @@ describe('Offers Reducer', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('should set active city with "setActiveCityAction" action', () => {
-    const newCity = City.AMSTERDAM;
-    const expectedState = { ...initialState, activeCity: newCity };
+  it('should set active city with "setActiveCity" action', () => {
+    const newCity = City.Amsterdam;
+    const expectedState = { ...mockInitialState.offers, activeCity: newCity };
 
-    const result = offersReducer(initialState, setActiveCityAction(newCity));
+    const result = offersReducer(mockInitialState.offers, setActiveCity(newCity));
 
     expect(result).toEqual(expectedState);
   });
 
   it('should set active sorting type with "setActiveSortingTypeAction" action', () => {
-    const newSortingType = SortingType.HIGH_TO_LOW;
-    const expectedState = { ...initialState, activeSortingType: newSortingType };
+    const newSortingType = SortingType.HighToLow;
+    const expectedState = { ...mockInitialState.offers, activeSortingType: newSortingType };
 
-    const result = offersReducer(initialState, setActiveSortingTypeAction(newSortingType));
+    const result = offersReducer(mockInitialState.offers, setActiveSortingTypeAction(newSortingType));
 
     expect(result).toEqual(expectedState);
   });
 
   it('should set active place card id with "setActivePlaceCardId" action', () => {
     const placeCardId = 'test-id';
-    const expectedState = { ...initialState, activePlaceCardId: placeCardId };
+    const expectedState = { ...mockInitialState.offers, activePlaceCardId: placeCardId };
 
-    const result = offersReducer(initialState, setActivePlaceCardId(placeCardId));
+    const result = offersReducer(mockInitialState.offers, setActivePlaceCardId(placeCardId));
 
     expect(result).toEqual(expectedState);
   });
 
   it('should set loading status with "setLoading" action', () => {
     const isLoading = true;
-    const expectedState = { ...initialState, isLoading };
+    const expectedState = { ...mockInitialState.offers, isLoading };
 
-    const result = offersReducer(initialState, setLoading(isLoading));
+    const result = offersReducer(mockInitialState.offers, setLoading(isLoading));
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('should set loading status with "setOfferError" action', () => {
+    const isError = true;
+    const expectedState = { ...mockInitialState.offers, isError };
+
+    const result = offersReducer(mockInitialState.offers, setOfferError(isError));
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('should set loading status with "setFavoriteStatusError" action', () => {
+    const isFavoriteStatusError = true;
+    const expectedState = { ...mockInitialState.offers, isFavoriteStatusError };
+
+    const result = offersReducer(mockInitialState.offers, setFavoriteStatusError(isFavoriteStatusError));
 
     expect(result).toEqual(expectedState);
   });
 
   it('should set place cards with "setPlaceCards" action', () => {
     const placeCards = [mockPlaceCard];
-    const expectedState = { ...initialState, placeCards };
+    const expectedState = { ...mockInitialState.offers, placeCards };
 
-    const result = offersReducer(initialState, setPlaceCards(placeCards));
+    const result = offersReducer(mockInitialState.offers, setPlaceCards(placeCards));
 
     expect(result).toEqual(expectedState);
   });
 
   it('should set favorite place cards with "setFavoritePlaceCards" action', () => {
-    const placeCards = [mockPlaceCard];
-    const expectedState = { ...initialState, placeCards };
+    const favoritePlaceCards = [mockPlaceCard];
+    const expectedState = { ...mockInitialState.offers, favoritePlaceCards };
 
-    const result = offersReducer(initialState, setFavoritePlaceCards(placeCards));
+    const result = offersReducer(mockInitialState.offers, setFavoritePlaceCards(favoritePlaceCards));
 
     expect(result).toEqual(expectedState);
   });
 
   it('should set offer data with "setOfferData" action', () => {
     const offerData = mockOffer;
-    const expectedState = { ...initialState, offerData };
+    const expectedState = { ...mockInitialState.offers, offerData };
 
-    const result = offersReducer(initialState, setOfferData(offerData));
+    const result = offersReducer(mockInitialState.offers, setOfferData(offerData));
 
     expect(result).toEqual(expectedState);
   });
 
   it('should set nearby offers with "setNearbyOffers" action', () => {
     const nearbyOffers = [mockPlaceCard];
-    const expectedState = { ...initialState, nearbyOffers };
+    const expectedState = { ...mockInitialState.offers, nearbyOffers };
 
-    const result = offersReducer(initialState, setNearbyOffers(nearbyOffers));
+    const result = offersReducer(mockInitialState.offers, setNearbyOffers(nearbyOffers));
 
     expect(result).toEqual(expectedState);
   });
@@ -125,14 +132,14 @@ describe('Offers Reducer', () => {
       isFavorite: true,
     };
     const expectedState = {
-      ...initialState,
+      ...mockInitialState.offers,
       placeCards: [{
         ...mockPlaceCard,
         isFavorite: true,
       }],
     };
 
-    const result = offersReducer(initialState, setFavoriteStatus(payload));
+    const result = offersReducer(mockInitialState.offers, setFavoriteStatus(payload));
 
     expect(result).toEqual(expectedState);
   });

@@ -1,17 +1,19 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { City, IOffer, IPlaceCard, SortingType } from '../../common/types/app';
+import { City, IOffer, IPlaceCard, SortingType } from '../../types/app';
 import { AppRootStateType } from '../types';
-import { Reducer } from '../../common/utils/const';
+import { Reducer } from '../../utils/const';
 
-export const selectActiveCity = (state: Pick<AppRootStateType, Reducer.OFFERS>): City => state.offers.activeCity;
-export const selectPlaceCards = (state: Pick<AppRootStateType, Reducer.OFFERS>): IPlaceCard[] => state.offers.placeCards;
-export const selectFavoritePlaceCards = (state: Pick<AppRootStateType, Reducer.OFFERS>): IPlaceCard[] => state.offers.favoritePlaceCards;
-export const selectActiveSortingType = (state: Pick<AppRootStateType, Reducer.OFFERS>): SortingType => state.offers.activeSortingType;
-export const selectIsLoading = (state: Pick<AppRootStateType, Reducer.OFFERS>): boolean => state.offers.isLoading;
-export const selectActivePlaceCardId = (state: Pick<AppRootStateType, Reducer.OFFERS>): IPlaceCard['id'] | null => state.offers.activePlaceCardId;
-export const selectOfferId = (state: Pick<AppRootStateType, Reducer.OFFERS>): string | null => state.offers.offerId;
-export const selectOfferData = (state: Pick<AppRootStateType, Reducer.OFFERS>): IOffer | null => state.offers.offerData;
-export const selectNearbyOffers = (state: Pick<AppRootStateType, Reducer.OFFERS>): IPlaceCard[] => state.offers.nearbyOffers;
+export const selectActiveCity = (state: Pick<AppRootStateType, Reducer.Offers>): City => state.offers.activeCity;
+export const selectPlaceCards = (state: Pick<AppRootStateType, Reducer.Offers>): IPlaceCard[] => state.offers.placeCards;
+export const selectFavoritePlaceCards = (state: Pick<AppRootStateType, Reducer.Offers>): IPlaceCard[] => state.offers.favoritePlaceCards;
+export const selectActiveSortingType = (state: Pick<AppRootStateType, Reducer.Offers>): SortingType => state.offers.activeSortingType;
+export const selectIsLoading = (state: Pick<AppRootStateType, Reducer.Offers>): boolean => state.offers.isLoading;
+export const selectIsFavoriteStatusError = (state: Pick<AppRootStateType, Reducer.Offers>): boolean => state.offers.isFavoriteStatusError;
+export const selectIsError = (state: Pick<AppRootStateType, Reducer.Offers>): boolean => state.offers.isError;
+export const selectActivePlaceCardId = (state: Pick<AppRootStateType, Reducer.Offers>): IPlaceCard['id'] | null => state.offers.activePlaceCardId;
+export const selectOfferId = (state: Pick<AppRootStateType, Reducer.Offers>): string | null => state.offers.offerId;
+export const selectOfferData = (state: Pick<AppRootStateType, Reducer.Offers>): IOffer | null => state.offers.offerData;
+export const selectNearbyOffers = (state: Pick<AppRootStateType, Reducer.Offers>): IPlaceCard[] => state.offers.nearbyOffers;
 
 export const getActiveCity = createSelector(
   [selectActiveCity],
@@ -36,6 +38,16 @@ export const getActiveSortingType = createSelector(
 export const getIsLoading = createSelector(
   [selectIsLoading],
   (isLoading): boolean => isLoading
+);
+
+export const getIsError = createSelector(
+  [selectIsError],
+  (isError): boolean => isError
+);
+
+export const getIsFavoriteStatusError = createSelector(
+  [selectIsFavoriteStatusError],
+  (isFavoriteStatusError): boolean => isFavoriteStatusError
 );
 
 export const getActivePlaceCardId = createSelector(
