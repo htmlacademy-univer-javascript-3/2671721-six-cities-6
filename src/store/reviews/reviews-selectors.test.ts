@@ -1,20 +1,30 @@
-import { ReviewsState } from './reviews-reducer';
-import { selectReviews, getReviews } from './reviews-selectors';
-import { mockReview } from '../../common/utils/mocks';
-import { Reducer } from '../../common/utils/const';
+import {
+  selectReviews,
+  getReviews,
+  selectReviewLoading,
+  getReviewLoading
+} from './reviews-selectors';
+import { mockInitialState } from '../../utils/mocks';
+import { Reducer } from '../../utils/const';
 
 describe('Reviews selectors', () => {
-  const mockState: ReviewsState = {
-    reviews: [mockReview],
-  };
-
   it('should return reviews from state', () => {
-    const result = selectReviews({ [Reducer.REVIEWS]: mockState });
-    expect(result).toEqual(mockState.reviews);
+    const result = selectReviews({ [Reducer.Reviews]: mockInitialState.reviews });
+    expect(result).toEqual(mockInitialState.reviews.reviews);
+  });
+
+  it('should return isLoading from state', () => {
+    const result = selectReviewLoading({ [Reducer.Reviews]: mockInitialState.reviews });
+    expect(result).toEqual(mockInitialState.reviews.isLoading);
   });
 
   it('should return reviews using createSelector', () => {
-    const result = getReviews({ [Reducer.REVIEWS]: mockState });
-    expect(result).toEqual(mockState.reviews);
+    const result = getReviews({[Reducer.Reviews]: mockInitialState.reviews});
+    expect(result).toEqual(mockInitialState.reviews.reviews);
+  });
+
+  it('should return isLoading using createSelector', () => {
+    const result = getReviewLoading({ [Reducer.Reviews]: mockInitialState.reviews });
+    expect(result).toEqual(mockInitialState.reviews.isLoading);
   });
 });

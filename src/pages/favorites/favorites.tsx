@@ -1,9 +1,7 @@
 import { FC } from 'react';
-import { Header } from '../../common/components/header/header';
-import { Footer } from '../../common/components/footer/footer';
-import {
-  FavoriteContent
-} from '../../common/widgets/favorite-content/favorite-content';
+import { Header } from '../../components/header/header';
+import { Footer } from '../../components/footer/footer';
+import { FavoriteContent } from '../../components/favorite-content/favorite-content';
 
 interface IFavoritesProps {
 }

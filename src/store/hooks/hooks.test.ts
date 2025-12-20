@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { useAppDispatch, useAppSelector } from './hooks';
-import { mockInitialState } from '../../common/utils/mocks';
-import { Selector, AppRootStateType } from '../../store/types';
+import { mockInitialState } from '../../utils/mocks';
+import { Selector, AppRootStateType } from '../types';
 import { useDispatch } from 'react-redux';
 
 const mockUseSelector = vi.fn((selector: Selector) =>

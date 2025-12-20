@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { Main } from './main';
 
-vi.mock('../../common/components/header/header', () => ({
+vi.mock('../../components/header/header', () => ({
   Header: () => <div data-testid="mock-header">Header Component</div>
 }));
 
-vi.mock('../../common/widgets/main-content/main-content', () => ({
+vi.mock('../../components/main-content/main-content', () => ({
   MainContent: () => <div data-testid="mock-main-content">MainContent Component</div>
 }));
 

@@ -1,10 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, AppRootStateType } from '../types';
 import { AxiosInstance } from 'axios';
-import { IReview } from '../../common/types/app';
-import { isResponseCode } from '../../common/utils/utils';
-import { Path, ResponseCode } from '../../common/utils/const';
-import { setReviews } from './reviews-actions';
+import { IReview } from '../../types/app';
+import { Path } from '../../utils/const';
+import { setReviews, setReviewLoading, setReviewError } from './reviews-actions';
 
 export const fetchReviews = createAsyncThunk<
   void,
@@ -14,7 +13,7 @@ export const fetchReviews = createAsyncThunk<
     state: AppRootStateType;
     extra: AxiosInstance;
   }>('FETCH_REVIEWS', async (offerId, { dispatch, extra: api }) => {
-    const response = await api.get<IReview[]>(`${Path.COMMENTS}/${offerId}`);
+    const response = await api.get<IReview[]>(`${Path.Comments}/${offerId}`);
     dispatch(setReviews(response.data));
   });
 
@@ -26,11 +25,17 @@ export const postReview = createAsyncThunk<
     state: AppRootStateType;
     extra: AxiosInstance;
   }>('POST_REVIEWS', async ({ offerId, comment, rating }, { dispatch: dispatch, extra: api }) => {
-    const response = await api.post<IReview[]>(`${Path.COMMENTS}/${offerId}`, {
-      comment: comment,
-      rating: rating,
-    });
-    if (isResponseCode(response.status) && response.status === ResponseCode.CREATED) {
+    dispatch(setReviewLoading(true));
+    try {
+      await api.post<IReview[]>(`${Path.Comments}/${offerId}`, {
+        comment: comment,
+        rating: rating,
+      });
       dispatch(fetchReviews(offerId));
+      dispatch(setReviewError(false));
+    } catch (e) {
+      dispatch(setReviewError(true));
+    } finally {
+      dispatch(setReviewLoading(false));
     }
   });

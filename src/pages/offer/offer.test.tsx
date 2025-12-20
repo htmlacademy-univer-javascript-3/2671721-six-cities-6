@@ -9,10 +9,10 @@ import {
 } from '../../store/offers/offers-selectors';
 import { getAuthorizationStatus } from '../../store/user/user-selectors';
 import { getReviews } from '../../store/reviews/reviews-selectors';
-import { mockOffer, mockPlaceCard, mockReview } from '../../common/utils/mocks';
+import { mockOffer, mockPlaceCard, mockReview } from '../../utils/mocks';
 import { Mock } from 'vitest';
 import { Selector } from '../../store/types';
-import {changeFavoriteStatus} from '../../store/offers/offers-api-actions';
+import { changeFavoriteStatus } from '../../store/offers/offers-api-actions';
 import userEvent from '@testing-library/user-event';
 
 vi.mock('react-router-dom', () => ({
@@ -35,27 +35,27 @@ vi.mock('../../store/reviews/reviews-api-actions', () => ({
   fetchReviews: vi.fn()
 }));
 
-vi.mock('../../common/components/header/header', () => ({
+vi.mock('../../components/header/header', () => ({
   Header: vi.fn(() => <header data-testid="header">Header</header>)
 }));
 
-vi.mock('../../common/widgets/review-card-list/review-card-list', () => ({
+vi.mock('../../components/review-card-list/review-card-list', () => ({
   MemorizedReviewCardList: vi.fn(() => <div data-testid="review-card-list">Review Card List</div>)
 }));
 
-vi.mock('../../common/components/review-form/review-form', () => ({
+vi.mock('../../components/review-form/review-form', () => ({
   MemorizedReviewForm: vi.fn(() => <div data-testid="review-form">Review Form</div>)
 }));
 
-vi.mock('../../common/components/map/map', () => ({
+vi.mock('../../components/map/map', () => ({
   MemorizedMap: vi.fn(() => <div data-testid="map">Map</div>)
 }));
 
-vi.mock('../../common/widgets/place-card-list/place-card-list', () => ({
+vi.mock('../../components/place-card-list/place-card-list', () => ({
   MemorizedPlaceCardList: vi.fn(() => <div data-testid="place-card-list">Place Card List</div>)
 }));
 
-vi.mock('../../common/components/spinner/spinner', () => ({
+vi.mock('../../components/spinner/spinner', () => ({
   Spinner: vi.fn(() => <div data-testid="spinner">Loading...</div>)
 }));
 
@@ -63,7 +63,7 @@ vi.mock('../not-found/not-found', () => ({
   NotFound: vi.fn(() => <div data-testid="not-found">Not Found</div>)
 }));
 
-vi.mock('../../common/utils/utils', () => ({
+vi.mock('../../utils/utils', () => ({
   calculateRatingPercent: vi.fn(() => '80%')
 }));
 

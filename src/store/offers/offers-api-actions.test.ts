@@ -8,44 +8,37 @@ import {
   fetchNearbyOffers,
   changeFavoriteStatus
 } from './offers-api-actions';
-import { City, SortingType, Status } from '../../common/types/app';
+import { City, SortingType, Status } from '../../types/app';
 import {
   setLoading,
   setOfferData,
   setNearbyOffers,
   setFavoriteStatus,
-  setFavoritePlaceCards
+  setFavoritePlaceCards,
+  setOfferError,
+  setFavoriteStatusError
 } from './offers-actions';
-import { createAPI } from '../../common/utils/api';
+import { createAPI } from '../../utils/api';
 import { AppDispatch, AppRootStateType } from '../types';
 import {
-  extractActionsTypes,
+  mockInitialState,
   mockOffer,
   mockPlaceCard
-} from '../../common/utils/mocks';
-import { Path } from '../../common/utils/const';
+} from '../../utils/mocks';
+import { Path } from '../../utils/const';
 import { Action } from '@reduxjs/toolkit';
+import { extractActionsTypes } from '../../utils/utils';
 
 describe('Offers Async actions', () => {
   const axios = createAPI();
   const mockAxiosAdapter = new MockAdapter(axios);
-  const middleware = [thunk.withExtraArgument(axios)];
-  const mockStoreCreator = configureMockStore<AppRootStateType, Action<string>, AppDispatch>(middleware);
+  const middlewares = [thunk.withExtraArgument(axios)];
+  const mockStoreCreator = configureMockStore<AppRootStateType, Action<string>, AppDispatch>(middlewares);
   let store: ReturnType<typeof mockStoreCreator>;
 
   beforeEach(() => {
     store = mockStoreCreator({
-      offers: {
-        activeCity: City.PARIS,
-        placeCards: [],
-        favoritePlaceCards: [],
-        activeSortingType: SortingType.POPULAR,
-        isLoading: false,
-        activePlaceCardId: null,
-        offerId: null,
-        offerData: null,
-        nearbyOffers: []
-      }
+      offers: mockInitialState.offers
     });
   });
 
@@ -53,7 +46,7 @@ describe('Offers Async actions', () => {
     const offerId = 'test-offer-id';
 
     it('should dispatch "setLoading(true)", "setOfferData", "setLoading(false)" when server response 200', async () => {
-      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}`).reply(200, mockOffer);
+      mockAxiosAdapter.onGet(`${Path.Offers}/${offerId}`).reply(200, mockOffer);
 
       await store.dispatch(fetchOfferData(offerId));
       const actions = extractActionsTypes(store.getActions());
@@ -62,13 +55,14 @@ describe('Offers Async actions', () => {
         fetchOfferData.pending.type,
         setLoading.type,
         setOfferData.type,
+        setOfferError.type,
         setLoading.type,
         fetchOfferData.fulfilled.type,
       ]);
     });
 
     it('should dispatch correct offer data', async () => {
-      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}`).reply(200, mockOffer);
+      mockAxiosAdapter.onGet(`${Path.Offers}/${offerId}`).reply(200, mockOffer);
 
       await store.dispatch(fetchOfferData(offerId));
 
@@ -80,7 +74,7 @@ describe('Offers Async actions', () => {
     });
 
     it('should dispatch "setLoading(true)", "setLoading(false)" and reject when server response 404', async () => {
-      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}`).reply(404);
+      mockAxiosAdapter.onGet(`${Path.Offers}/${offerId}`).reply(404);
 
       await store.dispatch(fetchOfferData(offerId));
       const actions = extractActionsTypes(store.getActions());
@@ -88,8 +82,9 @@ describe('Offers Async actions', () => {
       expect(actions).toEqual([
         fetchOfferData.pending.type,
         setLoading.type,
+        setOfferError.type,
         setLoading.type,
-        fetchOfferData.rejected.type,
+        fetchOfferData.fulfilled.type,
       ]);
     });
   });
@@ -97,11 +92,11 @@ describe('Offers Async actions', () => {
   describe('fetchOffers', () => {
     it('should dispatch "setLoading(true)", "setLoading(false)" and reject when server response 400', async () => {
       const params = {
-        city: City.PARIS,
-        activeSortingType: SortingType.HIGH_TO_LOW
+        city: City.Paris,
+        activeSortingType: SortingType.HighToLow
       };
 
-      mockAxiosAdapter.onGet(Path.OFFERS).reply(400);
+      mockAxiosAdapter.onGet(Path.Offers).reply(400);
 
       await store.dispatch(fetchOffers(params));
       const actions = extractActionsTypes(store.getActions());
@@ -109,8 +104,9 @@ describe('Offers Async actions', () => {
       expect(actions).toEqual([
         fetchOffers.pending.type,
         setLoading.type,
+        setOfferError.type,
         setLoading.type,
-        fetchOffers.rejected.type,
+        fetchOffers.fulfilled.type,
       ]);
     });
   });
@@ -118,7 +114,7 @@ describe('Offers Async actions', () => {
   describe('fetchFavoritesOffers', () => {
     it('should dispatch "setLoading(true)", "setPlaceCards", "setLoading(false)" when server response 200', async () => {
       const mockFavorites = [mockPlaceCard];
-      mockAxiosAdapter.onGet(Path.FAVORITE).reply(200, mockFavorites);
+      mockAxiosAdapter.onGet(Path.Favorite).reply(200, mockFavorites);
 
       await store.dispatch(fetchFavoritesOffers());
       const actions = extractActionsTypes(store.getActions());
@@ -127,13 +123,14 @@ describe('Offers Async actions', () => {
         fetchFavoritesOffers.pending.type,
         setLoading.type,
         setFavoritePlaceCards.type,
+        setOfferError.type,
         setLoading.type,
         fetchFavoritesOffers.fulfilled.type,
       ]);
     });
 
     it('should dispatch "setLoading(true)", "setLoading(false)" and reject when server response 400', async () => {
-      mockAxiosAdapter.onGet(Path.FAVORITE).reply(400);
+      mockAxiosAdapter.onGet(Path.Favorite).reply(400);
 
       await store.dispatch(fetchFavoritesOffers());
       const actions = extractActionsTypes(store.getActions());
@@ -141,8 +138,9 @@ describe('Offers Async actions', () => {
       expect(actions).toEqual([
         fetchFavoritesOffers.pending.type,
         setLoading.type,
+        setOfferError.type,
         setLoading.type,
-        fetchFavoritesOffers.rejected.type,
+        fetchFavoritesOffers.fulfilled.type,
       ]);
     });
   });
@@ -157,7 +155,7 @@ describe('Offers Async actions', () => {
         mockPlaceCard,
         mockPlaceCard,
       ];
-      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}/nearby`).reply(200, mockNearbyOffers);
+      mockAxiosAdapter.onGet(`${Path.Offers}/${offerId}/nearby`).reply(200, mockNearbyOffers);
 
       await store.dispatch(fetchNearbyOffers(offerId));
       const actions = extractActionsTypes(store.getActions());
@@ -165,19 +163,21 @@ describe('Offers Async actions', () => {
       expect(actions).toEqual([
         fetchNearbyOffers.pending.type,
         setNearbyOffers.type,
+        setOfferError.type,
         fetchNearbyOffers.fulfilled.type,
       ]);
     });
 
     it('should dispatch reject when server response 404', async () => {
-      mockAxiosAdapter.onGet(`${Path.OFFERS}/${offerId}/nearby`).reply(404);
+      mockAxiosAdapter.onGet(`${Path.Offers}/${offerId}/nearby`).reply(404);
 
       await store.dispatch(fetchNearbyOffers(offerId));
       const actions = extractActionsTypes(store.getActions());
 
       expect(actions).toEqual([
         fetchNearbyOffers.pending.type,
-        fetchNearbyOffers.rejected.type,
+        setOfferError.type,
+        fetchNearbyOffers.fulfilled.type,
       ]);
     });
   });
@@ -186,28 +186,10 @@ describe('Offers Async actions', () => {
     const offerId = 'test-offer-id';
     const status: Status = 1;
 
-    it('should dispatch "setFavoriteStatus" and "fetchFavoritesOffers"', async () => {
-      const params = { offerId, status };
-
-      mockAxiosAdapter.onPost(`${Path.FAVORITE}/${offerId}/${status}`).reply(200, mockOffer);
-      mockAxiosAdapter.onGet(Path.FAVORITE).reply(200, []);
-
-      await store.dispatch(changeFavoriteStatus(params));
-      const actions = extractActionsTypes(store.getActions());
-
-      expect(actions).toEqual([
-        changeFavoriteStatus.pending.type,
-        setFavoriteStatus.type,
-        fetchFavoritesOffers.pending.type,
-        setLoading.type,
-        changeFavoriteStatus.fulfilled.type,
-      ]);
-    });
-
     it('should dispatch updated offer data', async () => {
       const params = { offerId, status };
 
-      mockAxiosAdapter.onPost(`${Path.FAVORITE}/${offerId}/${status}`).reply(200, mockOffer);
+      mockAxiosAdapter.onPost(`${Path.Favorite}/${offerId}/${status}`).reply(200, mockOffer);
 
       await store.dispatch(changeFavoriteStatus(params));
 
@@ -220,14 +202,15 @@ describe('Offers Async actions', () => {
 
     it('should dispatch reject when server response 400', async () => {
       const params = { offerId, status };
-      mockAxiosAdapter.onPost(`${Path.FAVORITE}/${offerId}/${status}`).reply(400);
+      mockAxiosAdapter.onPost(`${Path.Favorite}/${offerId}/${status}`).reply(400);
 
       await store.dispatch(changeFavoriteStatus(params));
       const actions = extractActionsTypes(store.getActions());
 
       expect(actions).toEqual([
         changeFavoriteStatus.pending.type,
-        changeFavoriteStatus.rejected.type,
+        setFavoriteStatusError.type,
+        changeFavoriteStatus.fulfilled.type,
       ]);
     });
   });

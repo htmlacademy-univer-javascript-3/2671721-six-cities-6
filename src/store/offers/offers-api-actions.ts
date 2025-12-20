@@ -6,18 +6,19 @@ import {
   IPlaceCard,
   SortingType,
   Status
-} from '../../common/types/app';
+} from '../../types/app';
 import { AppDispatch, AppRootStateType } from '../types';
-import { Path } from '../../common/utils/const';
+import { Path } from '../../utils/const';
 import {
   setFavoriteStatus,
   setLoading,
   setNearbyOffers,
   setOfferData,
   setPlaceCards,
-  setFavoritePlaceCards
+  setFavoritePlaceCards,
+  setOfferError, setFavoriteStatusError
 } from './offers-actions';
-import { getSortingFunction } from '../../common/utils/utils';
+import { getSortingFunction } from '../../utils/utils';
 
 export const fetchOffers = createAsyncThunk<
   void,
@@ -33,11 +34,14 @@ export const fetchOffers = createAsyncThunk<
 >('FETCH_OFFERS', async ({ city, activeSortingType }, { dispatch, extra: api }) => {
   dispatch(setLoading(true));
   try {
-    const response = await api.get<IPlaceCard[]>(Path.OFFERS);
+    const response = await api.get<IPlaceCard[]>(Path.Offers);
     const placeCards = response.data
       .filter((el) => el.city.name === city.toString())
       .toSorted(getSortingFunction(activeSortingType));
     dispatch(setPlaceCards(placeCards));
+    dispatch(setOfferError(false));
+  } catch {
+    dispatch(setOfferError(true));
   } finally {
     dispatch(setLoading(false));
   }
@@ -54,8 +58,11 @@ export const fetchFavoritesOffers = createAsyncThunk<
 >('FETCH_FAVORITES_OFFERS', async (_, { dispatch, extra: api }) => {
   dispatch(setLoading(true));
   try {
-    const response = await api.get<IPlaceCard[]>(Path.FAVORITE);
+    const response = await api.get<IPlaceCard[]>(Path.Favorite);
     dispatch(setFavoritePlaceCards(response.data));
+    dispatch(setOfferError(false));
+  } catch {
+    dispatch(setOfferError(true));
   } finally {
     dispatch(setLoading(false));
   }
@@ -71,8 +78,11 @@ export const fetchOfferData = createAsyncThunk<
   }>('FETCH_OFFER_DATA', async (offerId, { dispatch, extra: api }) => {
     dispatch(setLoading(true));
     try {
-      const response = await api.get<IOffer>(`${Path.OFFERS}/${offerId}`);
+      const response = await api.get<IOffer>(`${Path.Offers}/${offerId}`);
       dispatch(setOfferData(response.data));
+      dispatch(setOfferError(false));
+    } catch {
+      dispatch(setOfferError(true));
     } finally {
       dispatch(setLoading(false));
     }
@@ -86,8 +96,13 @@ export const fetchNearbyOffers = createAsyncThunk<
     state: AppRootStateType;
     extra: AxiosInstance;
   }>('FETCH_NEARBY_OFFER', async (offerId, { dispatch, extra: api }) => {
-    const response = await api.get<IPlaceCard[]>(`${Path.OFFERS}/${offerId}/nearby`);
-    dispatch(setNearbyOffers(response.data.slice(0, 3)));
+    try {
+      const response = await api.get<IPlaceCard[]>(`${Path.Offers}/${offerId}/nearby`);
+      dispatch(setNearbyOffers(response.data.slice(0, 3)));
+      dispatch(setOfferError(false));
+    } catch {
+      dispatch(setOfferError(true));
+    }
   });
 
 export const changeFavoriteStatus = createAsyncThunk<
@@ -103,12 +118,18 @@ export const changeFavoriteStatus = createAsyncThunk<
   }>(
     'CHANGE_FAVORITE_STATUS',
     async ({ offerId, status }, { dispatch, extra: api, getState }) => {
-      const response = await api.post<IOffer>(`${Path.FAVORITE}/${offerId}/${status}`);
-      dispatch(setFavoriteStatus(response.data));
-      dispatch(fetchFavoritesOffers());
+      try {
+        const response = await api.post<IOffer>(`${Path.Favorite}/${offerId}/${status}`);
+        dispatch(setFavoriteStatus(response.data));
+        dispatch(fetchFavoritesOffers());
 
-      if (getState().offers.offerData?.id === offerId) {
-        dispatch(fetchOfferData(offerId));
+        if (getState().offers.offerData?.id !== null) {
+          dispatch(fetchOfferData(offerId));
+          dispatch(fetchNearbyOffers(offerId));
+        }
+        dispatch(setFavoriteStatusError(false));
+      } catch {
+        dispatch(setFavoriteStatusError(true));
       }
     }
   );

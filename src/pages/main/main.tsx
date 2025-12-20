@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Header } from '../../common/components/header/header';
-import { MainContent } from '../../common/widgets/main-content/main-content';
+import { Header } from '../../components/header/header';
+import { MainContent } from '../../components/main-content/main-content';
 
 interface IMainProps {
 }

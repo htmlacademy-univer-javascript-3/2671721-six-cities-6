@@ -2,25 +2,24 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { fetchReviews, postReview } from './reviews-api-actions';
-import { Path } from '../../common/utils/const';
-import { setReviews } from './reviews-actions';
-import { createAPI } from '../../common/utils/api';
+import { Path } from '../../utils/const';
+import { setReviewError, setReviewLoading, setReviews } from './reviews-actions';
+import { createAPI } from '../../utils/api';
 import { AppDispatch, AppRootStateType } from '../types';
-import { extractActionsTypes, mockReview } from '../../common/utils/mocks';
+import { mockInitialState, mockReview } from '../../utils/mocks';
 import { Action } from '@reduxjs/toolkit';
+import { extractActionsTypes } from '../../utils/utils';
 
 describe('Reviews Async actions', () => {
   const axios = createAPI();
   const mockAxiosAdapter = new MockAdapter(axios);
-  const middleware = [thunk.withExtraArgument(axios)];
-  const mockStoreCreator = configureMockStore<AppRootStateType, Action<string>, AppDispatch>(middleware);
+  const middlewares = [thunk.withExtraArgument(axios)];
+  const mockStoreCreator = configureMockStore<AppRootStateType, Action<string>, AppDispatch>(middlewares);
   let store: ReturnType<typeof mockStoreCreator>;
 
   beforeEach(() => {
     store = mockStoreCreator({
-      reviews: {
-        reviews: []
-      }
+      reviews: mockInitialState.reviews
     });
   });
 
@@ -29,7 +28,7 @@ describe('Reviews Async actions', () => {
 
     it('should dispatch "setReviews" when server response 200', async () => {
       const mockReviews = [mockReview];
-      mockAxiosAdapter.onGet(`${Path.COMMENTS}/${offerId}`).reply(200, mockReviews);
+      mockAxiosAdapter.onGet(`${Path.Comments}/${offerId}`).reply(200, mockReviews);
 
       await store.dispatch(fetchReviews(offerId));
       const actions = extractActionsTypes(store.getActions());
@@ -43,7 +42,7 @@ describe('Reviews Async actions', () => {
 
     it('should dispatch correct reviews data', async () => {
       const mockReviews = [mockReview];
-      mockAxiosAdapter.onGet(`${Path.COMMENTS}/${offerId}`).reply(200, mockReviews);
+      mockAxiosAdapter.onGet(`${Path.Comments}/${offerId}`).reply(200, mockReviews);
 
       await store.dispatch(fetchReviews(offerId));
 
@@ -54,7 +53,7 @@ describe('Reviews Async actions', () => {
     });
 
     it('should dispatch reject when server response 404', async () => {
-      mockAxiosAdapter.onGet(`${Path.COMMENTS}/${offerId}`).reply(404);
+      mockAxiosAdapter.onGet(`${Path.Comments}/${offerId}`).reply(404);
 
       await store.dispatch(fetchReviews(offerId));
       const actions = extractActionsTypes(store.getActions());
@@ -74,28 +73,34 @@ describe('Reviews Async actions', () => {
     };
 
     it('should dispatch "fetchReviews" when server response 201', async () => {
-      mockAxiosAdapter.onPost(`${Path.COMMENTS}/${offerId}`).reply(201, []);
-      mockAxiosAdapter.onGet(`${Path.COMMENTS}/${offerId}`).reply(200, []);
+      mockAxiosAdapter.onPost(`${Path.Comments}/${offerId}`).reply(201, []);
+      mockAxiosAdapter.onGet(`${Path.Comments}/${offerId}`).reply(200, []);
 
       await store.dispatch(postReview({ offerId, ...reviewData }));
       const actions = extractActionsTypes(store.getActions());
 
       expect(actions).toEqual([
         postReview.pending.type,
+        setReviewLoading.type,
         fetchReviews.pending.type,
+        setReviewError.type,
+        setReviewLoading.type,
         postReview.fulfilled.type,
       ]);
     });
 
     it('should dispatch reject when server response 400', async () => {
-      mockAxiosAdapter.onPost(`${Path.COMMENTS}/${offerId}`).reply(400);
+      mockAxiosAdapter.onPost(`${Path.Comments}/${offerId}`).reply(400);
 
       await store.dispatch(postReview({ offerId, ...reviewData }));
       const actions = extractActionsTypes(store.getActions());
 
       expect(actions).toEqual([
         postReview.pending.type,
-        postReview.rejected.type,
+        setReviewLoading.type,
+        setReviewError.type,
+        setReviewLoading.type,
+        postReview.fulfilled.type,
       ]);
     });
   });
