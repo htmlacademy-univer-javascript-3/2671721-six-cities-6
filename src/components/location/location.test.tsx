@@ -28,7 +28,7 @@ describe('location Component', () => {
       offers: mockInitialState.offers
     });
     vi.clearAllMocks();
-    mockSetActiveCity.mockReturnValue({ type: 'SET_ACTIVE_CITY', payload: City.Paris } as unknown as ReturnType<typeof mockSetActiveCity>);
+    mockSetActiveCity.mockReturnValue({ type: 'offers/setActiveCity', payload: City.Paris } as unknown as ReturnType<typeof mockSetActiveCity>);
   });
 
   it('should display city name', () => {

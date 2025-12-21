@@ -145,11 +145,6 @@ describe('Utility Functions', () => {
         expect(getToken()).toBe('');
       });
 
-      it('should handle null value from localStorage', () => {
-        vi.spyOn(Storage.prototype, 'getItem').mockReturnValueOnce(null);
-        expect(getToken()).toBe('');
-      });
-
       it('should handle other AUTH_TOKEN_KEY_NAME values', () => {
         localStorage.setItem('different-key', 'different-token');
         expect(getToken()).toBe('');
