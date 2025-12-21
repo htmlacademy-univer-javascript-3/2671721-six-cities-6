@@ -12,7 +12,7 @@ export const fetchReviews = createAsyncThunk<
     dispatch: AppDispatch;
     state: AppRootStateType;
     extra: AxiosInstance;
-  }>('FETCH_REVIEWS', async (offerId, { dispatch, extra: api }) => {
+  }>('reviews/fetchReviews', async (offerId, { dispatch, extra: api }) => {
     const response = await api.get<IReview[]>(`${Path.Comments}/${offerId}`);
     dispatch(setReviews(response.data));
   });
@@ -24,7 +24,7 @@ export const postReview = createAsyncThunk<
     dispatch: AppDispatch;
     state: AppRootStateType;
     extra: AxiosInstance;
-  }>('POST_REVIEWS', async ({ offerId, comment, rating }, { dispatch: dispatch, extra: api }) => {
+  }>('reviews/postReviews', async ({ offerId, comment, rating }, { dispatch: dispatch, extra: api }) => {
     dispatch(setReviewLoading(true));
     try {
       await api.post<IReview[]>(`${Path.Comments}/${offerId}`, {

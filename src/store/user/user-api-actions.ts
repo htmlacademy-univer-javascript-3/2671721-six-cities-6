@@ -18,7 +18,7 @@ export const checkAuthorizationStatus = createAsyncThunk<
     state: AppRootStateType;
     extra: AxiosInstance;
   }
-  >('CHECK_AUTHORIZATION_STATUS', async (_, { dispatch, extra: api }) => {
+  >('user/checkAuthorizationStatus', async (_, { dispatch, extra: api }) => {
     dispatch(setAuthorizationStatus(null));
     try {
       const response = await api.get<AuthResponse>(Path.Login);
@@ -37,7 +37,7 @@ export const login = createAsyncThunk<
     dispatch: AppDispatch;
     state: AppRootStateType;
     extra: AxiosInstance;
-  }>('LOGIN', async ({ email, password }, { dispatch, extra: api }) => {
+  }>('user/login', async ({ email, password }, { dispatch, extra: api }) => {
     try {
       const { data } = await api.post<AuthResponse>(Path.Login, { email, password });
       saveToken(data.token);
@@ -56,7 +56,7 @@ export const logout = createAsyncThunk<
     dispatch: AppDispatch;
     state: AppRootStateType;
     extra: AxiosInstance;
-  }>('LOGOUT', async (_, { dispatch, extra: api }) => {
+  }>('user/logout', async (_, { dispatch, extra: api }) => {
     try {
       await api.delete<void>(Path.Login);
     } catch {

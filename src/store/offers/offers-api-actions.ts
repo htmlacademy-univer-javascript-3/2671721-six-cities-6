@@ -31,7 +31,7 @@ export const fetchOffers = createAsyncThunk<
     state: AppRootStateType;
     extra: AxiosInstance;
   }
->('FETCH_OFFERS', async ({ city, activeSortingType }, { dispatch, extra: api }) => {
+>('offers/fetchOffers', async ({ city, activeSortingType }, { dispatch, extra: api }) => {
   dispatch(setLoading(true));
   try {
     const response = await api.get<IPlaceCard[]>(Path.Offers);
@@ -55,7 +55,7 @@ export const fetchFavoritesOffers = createAsyncThunk<
     state: AppRootStateType;
     extra: AxiosInstance;
   }
->('FETCH_FAVORITES_OFFERS', async (_, { dispatch, extra: api }) => {
+>('offers/fetchFavoritesOffers', async (_, { dispatch, extra: api }) => {
   dispatch(setLoading(true));
   try {
     const response = await api.get<IPlaceCard[]>(Path.Favorite);
@@ -75,7 +75,7 @@ export const fetchOfferData = createAsyncThunk<
     dispatch: AppDispatch;
     state: AppRootStateType;
     extra: AxiosInstance;
-  }>('FETCH_OFFER_DATA', async (offerId, { dispatch, extra: api }) => {
+  }>('offers/fetchOfferData', async (offerId, { dispatch, extra: api }) => {
     dispatch(setLoading(true));
     try {
       const response = await api.get<IOffer>(`${Path.Offers}/${offerId}`);
@@ -95,7 +95,7 @@ export const fetchNearbyOffers = createAsyncThunk<
     dispatch: AppDispatch;
     state: AppRootStateType;
     extra: AxiosInstance;
-  }>('FETCH_NEARBY_OFFER', async (offerId, { dispatch, extra: api }) => {
+  }>('offers/fetchNearbyOffers', async (offerId, { dispatch, extra: api }) => {
     try {
       const response = await api.get<IPlaceCard[]>(`${Path.Offers}/${offerId}/nearby`);
       dispatch(setNearbyOffers(response.data.slice(0, 3)));
@@ -116,7 +116,7 @@ export const changeFavoriteStatus = createAsyncThunk<
     state: AppRootStateType;
     extra: AxiosInstance;
   }>(
-    'CHANGE_FAVORITE_STATUS',
+    'offers/changeFavoriteStatus',
     async ({ offerId, status }, { dispatch, extra: api, getState }) => {
       try {
         const response = await api.post<IOffer>(`${Path.Favorite}/${offerId}/${status}`);

@@ -130,7 +130,7 @@ describe('header Component', () => {
 
   it('should dispatch logout action when Sign out is clicked', () => {
     mockGetAuthorizationStatus.mockReturnValue(true);
-    mockLogout.mockReturnValue({ type: 'LOGOUT' } as unknown as ReturnType<typeof mockLogout>);
+    mockLogout.mockReturnValue({ type: 'user/logout' } as unknown as ReturnType<typeof mockLogout>);
     render(
       <Provider store={store}>
         <Header />
