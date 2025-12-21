@@ -8,7 +8,6 @@ import {
   setUserData,
   setUserError
 } from './user-actions';
-import * as tokenUtils from '../../utils/utils';
 import { createAPI } from '../../utils/api';
 import { AppDispatch, AppRootStateType } from '../types';
 import { Action } from '@reduxjs/toolkit';
@@ -17,7 +16,17 @@ import {
   mockAuthResponse,
   mockInitialState
 } from '../../utils/mocks';
-import { extractActionsTypes } from '../../utils/utils';
+import { extractActionsTypes, dropToken, saveToken } from '../../utils/utils';
+import { Mock } from 'vitest';
+
+vi.mock('../../utils/utils', async () => {
+  const actual: object = await vi.importActual('../../utils/utils');
+  return {
+    ...actual,
+    dropToken: vi.fn<[], void>(),
+    saveToken: vi.fn<[string], void>(),
+  };
+});
 
 describe('User Async actions', () => {
   const axios = createAPI();
@@ -25,11 +34,14 @@ describe('User Async actions', () => {
   const middlewares = [thunk.withExtraArgument(axios)];
   const mockStoreCreator = configureMockStore<AppRootStateType, Action<string>, AppDispatch>(middlewares);
   let store: ReturnType<typeof mockStoreCreator>;
+  const mockDropToken = dropToken as Mock<[], void>;
+  const mockSaveToken = saveToken as Mock<[string], void>;
 
   beforeEach(() => {
     store = mockStoreCreator({
       user: mockInitialState.user
     });
+    vi.clearAllMocks();
   });
 
   describe('checkAuthorizationStatus', () => {
@@ -63,12 +75,11 @@ describe('User Async actions', () => {
   describe('login', () => {
     it('should call "saveToken" with received token', async () => {
       mockAxiosAdapter.onPost(Path.Login).reply(200, mockAuthResponse);
-      const mockSaveToken = vi.spyOn(tokenUtils, 'saveToken');
 
       await store.dispatch(login(mockAuthRequest));
 
-      expect(mockSaveToken).toBeCalledTimes(1);
-      expect(mockSaveToken).toBeCalledWith(mockAuthResponse.token);
+      expect(mockSaveToken).toHaveBeenCalledTimes(1);
+      expect(mockSaveToken).toHaveBeenCalledWith(mockAuthResponse.token);
     });
 
     it('should dispatch "setUserData" and "setAuthorizationStatus" when server response 200', async () => {
@@ -103,11 +114,10 @@ describe('User Async actions', () => {
   describe('logout', () => {
     it('should call "dropToken" once', async () => {
       mockAxiosAdapter.onDelete(Path.Login).reply(204);
-      const mockDropToken = vi.spyOn(tokenUtils, 'dropToken');
 
       await store.dispatch(logout());
 
-      expect(mockDropToken).toBeCalledTimes(1);
+      expect(mockDropToken).toHaveBeenCalledTimes(1);
     });
 
     it('should dispatch "setUserData" and "setAuthorizationStatus" when server response 204', async () => {

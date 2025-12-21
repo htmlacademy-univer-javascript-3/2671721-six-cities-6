@@ -32,7 +32,7 @@ describe('layout Component', () => {
       user: mockInitialState.user
     });
     vi.clearAllMocks();
-    mockCheckAuthorizationStatus.mockReturnValue({ type: 'CHECK_AUTHORIZATION_STATUS' } as unknown as ReturnType<typeof mockCheckAuthorizationStatus>);
+    mockCheckAuthorizationStatus.mockReturnValue({ type: 'user/checkAuthorizationStatus' } as unknown as ReturnType<typeof mockCheckAuthorizationStatus>);
   });
 
   it('should dispatch checkAuthorizationStatus on mount', () => {
